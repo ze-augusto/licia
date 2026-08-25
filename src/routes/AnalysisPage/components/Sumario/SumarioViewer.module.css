@@ -1,0 +1,109 @@
+.viewer {
+  position: sticky;
+  top: 0;
+  align-self: flex-start;
+  max-height: calc(100vh - 64px);
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-8);
+  padding: var(--spacing-16);
+  background: var(--color-bg-card);
+  border-left: 1px solid var(--color-border-default);
+  overflow: hidden;
+}
+
+.title {
+  font-size: var(--text-small-semibold-size);
+  font-weight: var(--text-small-semibold-weight);
+  line-height: var(--text-small-semibold-line-height);
+  color: var(--color-text-title);
+}
+
+.context {
+  padding: var(--spacing-8) var(--spacing-12);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-8);
+  font-size: var(--text-caption-size);
+  line-height: var(--text-caption-line-height);
+  color: var(--color-text-title);
+}
+
+.pdf {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.toolbar {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-16);
+  padding: var(--spacing-8) var(--spacing-16) var(--spacing-8) var(--spacing-32);
+  background: var(--color-bg-toolbar);
+  border: 1px solid var(--color-border-viewer);
+}
+
+.fileName {
+  flex: 1;
+  min-width: 0;
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.miniBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-8);
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-8);
+  color: var(--color-icon-default);
+  cursor: pointer;
+  transition: background 0.12s;
+}
+
+.miniBtn:hover {
+  background: var(--color-bg-hover);
+}
+
+.pageBox {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-8);
+}
+
+.pageInput {
+  width: 40px;
+  height: 26px;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border-viewer);
+  border-radius: var(--radius-4);
+  outline: none;
+  text-align: center;
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-12);
+  color: var(--color-text-body);
+}
+
+.pageTotal {
+  font-size: 11px;
+  color: var(--color-text-secondary);
+}
+
+.documentArea {
+  flex: 1;
+  min-height: 0;
+  padding: var(--spacing-32);
+  background: var(--color-bg-viewer);
+  border: 1px solid var(--color-border-viewer);
+  border-top: none;
+  overflow-y: auto;
+}

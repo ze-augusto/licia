@@ -65,3 +65,26 @@ export interface AnalysisDocument {
   fileName: string;
   totalPages: number;
 }
+
+/**
+ * Estados da linha da tabela de peças (componente `Sumário/Linha-peça`).
+ * - `idle`       — peça localizada pela Licia, aguardando conferência
+ * - `confirmada` — conferida pelo usuário
+ * - `atual`      — em edição (nome e páginas viram campos)
+ * - `ausente`    — peça esperada que não foi localizada no documento
+ * - `orfa`       — faixa de páginas sem peça atribuída
+ */
+export type PieceState = "idle" | "confirmada" | "atual" | "ausente" | "orfa";
+
+/** Peça do sumário do documento compilado. */
+export interface DocumentPiece {
+  id: string;
+  /** Número exibido no círculo. `null` em peças ausentes ("—") e órfãs ("!"). */
+  order: number | null;
+  name: string;
+  /** Página inicial no PDF; `null` quando a peça não foi localizada. */
+  startPage: number | null;
+  /** Página final no PDF; `null` quando a peça não foi localizada. */
+  endPage: number | null;
+  state: PieceState;
+}
