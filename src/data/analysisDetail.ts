@@ -10,6 +10,6 @@ export const DEMO_ANALYSIS = {
     "AQUISIÇÃO — EQUIPAMENTOS E MATERIAL PERMANENTE — APARELHOS, EQUIPAMENTOS, UTENSÍLIOS MÉDICO-ODONTOLÓGICO, LABORATORIAL E HOSPITALAR",
   document: {
     fileName: "24001.028501_2025-75_pregao.pdf",
-    totalPages: 200,
+    totalPages: 214,
   } satisfies AnalysisDocument,
 };

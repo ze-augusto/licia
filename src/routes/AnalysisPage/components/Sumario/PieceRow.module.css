@@ -1,0 +1,256 @@
+/* Linha da tabela de peças — Figma `Sumário/Linha-peça` (252:10966 e variações).
+   Colunas: nº 44 · peça flex · pág. inicial 92 · pág. final 92 · ações 292. */
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-8);
+  min-height: 52px;
+  padding: var(--spacing-8) var(--spacing-12);
+  border-bottom: 1px solid var(--color-border-subtle);
+  cursor: pointer;
+}
+
+.row:last-child {
+  border-bottom: none;
+}
+
+.colNumber {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  width: 44px;
+}
+
+.colName {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+}
+
+.colPage {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  width: 92px;
+}
+
+.colMessage {
+  flex-shrink: 0;
+  width: 192px;
+  font-size: var(--text-caption-size);
+  line-height: var(--text-caption-line-height);
+  color: var(--color-error-default);
+}
+
+.colActions {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--spacing-8);
+  width: 292px;
+}
+
+/* ── Número circular (`Sumário/Peça-número`) ── */
+.number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border-strong);
+  background: var(--color-bg-card);
+  font-size: var(--text-caption-semibold-size);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-16);
+  color: var(--color-text-body);
+}
+
+.number_confirmada {
+  background: var(--color-success-default);
+  border-color: var(--color-success-default);
+  color: var(--color-text-inverse);
+}
+
+.number_atual {
+  background: var(--color-brand-default);
+  border-color: var(--color-brand-default);
+  color: var(--color-text-inverse);
+}
+
+.number_ausente,
+.number_orfa {
+  border-style: dashed;
+  border-color: var(--color-error-default);
+  color: var(--color-error-default);
+}
+
+/* ── Texto ── */
+.name,
+.page {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--text-small-size);
+  line-height: var(--text-small-line-height);
+  color: var(--color-text-body);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Página é um atalho para o visualizador. */
+.page {
+  padding: 0;
+  border: none;
+  background: none;
+  font-family: var(--font-family-base);
+  text-align: left;
+  color: var(--color-text-brand);
+  cursor: pointer;
+}
+
+.page:hover {
+  text-decoration: underline;
+}
+
+.input {
+  width: 100%;
+  padding: var(--spacing-8) var(--spacing-12);
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-brand-default);
+  border-radius: var(--radius-8);
+  outline: none;
+  font-family: var(--font-family-base);
+  font-size: var(--text-small-size);
+  line-height: var(--text-small-line-height);
+  color: var(--color-text-body);
+}
+
+/* ── Variação: idle ── */
+.row_idle {
+  background: var(--color-bg-card);
+}
+
+.row_idle:hover {
+  background: var(--color-bg-subtle);
+}
+
+/* ── Variação: confirmada ── */
+.row_confirmada {
+  background: var(--color-bg-subtle);
+}
+
+.row_confirmada .name,
+.row_confirmada .page {
+  color: var(--color-text-secondary);
+}
+
+/* ── Variação: atual (em edição) ── */
+.row_atual {
+  background: var(--color-brand-muted);
+  border-bottom: none;
+  border-left: 3px solid var(--color-brand-default);
+  padding-left: calc(var(--spacing-12) - 3px);
+}
+
+/* ── Variações: ausente e órfã ── */
+.row_ausente,
+.row_orfa {
+  background: var(--color-error-subtle);
+}
+
+.row_ausente .name,
+.row_orfa .name,
+.row_orfa .page {
+  color: var(--color-error-default);
+}
+
+.row_orfa .name {
+  font-style: italic;
+}
+
+/* Linha selecionada (reflete o segmento destacado no mapa). */
+.rowSelected {
+  box-shadow: inset 3px 0 0 var(--color-brand-default);
+}
+
+/* ── Ações ── */
+.iconBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-8);
+  border: none;
+  background: none;
+  border-radius: var(--radius-8);
+  color: var(--color-icon-default);
+  cursor: pointer;
+  transition: background 0.12s;
+}
+
+.iconBtn:hover {
+  background: var(--color-bg-hover);
+}
+
+.iconBtn svg {
+  width: 20px;
+  height: 20px;
+}
+
+.iconBtnBrand {
+  color: var(--color-icon-brand);
+}
+
+.iconBtnDanger {
+  color: var(--color-error-default);
+}
+
+.outlineBtn,
+.ghostBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-8);
+  min-width: 120px;
+  padding: var(--spacing-8) var(--spacing-16);
+  border: none;
+  border-radius: var(--radius-8);
+  background: none;
+  font-family: var(--font-family-base);
+  font-size: var(--text-small-semibold-size);
+  font-weight: var(--text-small-semibold-weight);
+  line-height: var(--text-small-semibold-line-height);
+  color: var(--color-text-body);
+  cursor: pointer;
+  transition: background 0.12s;
+}
+
+.outlineBtn {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border-default);
+}
+
+.outlineBtn:hover {
+  background: var(--color-bg-hover);
+}
+
+.ghostBtn:hover {
+  background: var(--color-bg-hover);
+}
+
+/* "Desfazer confirmação" — texto puro, sem caixa (Figma I252:10966;258:3463). */
+.linkBtn {
+  border: none;
+  background: none;
+  font-family: var(--font-family-base);
+  font-size: var(--text-small-size);
+  line-height: var(--text-small-line-height);
+  color: var(--color-text-body);
+  cursor: pointer;
+}
+
+.linkBtn:hover {
+  text-decoration: underline;
+}
