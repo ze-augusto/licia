@@ -1,7 +1,5 @@
-import type { ObservationGroup } from "./types";
-
 /** Observações da aba Técnica (dados de demonstração). */
-export const OBSERVATION_GROUPS: ObservationGroup[] = [
+export const OBSERVATION_GROUPS = [
   {
     id: "modalidade",
     label: "MODALIDADE",

@@ -1,38 +1,7 @@
 import { SUMARIO_PIECES } from "./sumario";
 
-/** Bloco de conteúdo renderizado na folha do PDF. */
-export type DocBlock =
-  | { kind: "heading"; text: string }
-  | { kind: "paragraph"; text: string }
-  | { kind: "list"; items: string[] }
-  | { kind: "table"; columns: string[]; rows: string[][] }
-  | { kind: "signature"; name: string; role: string }
-  | { kind: "alert"; title: string; text: string };
-
-/** Conteúdo de uma folha do documento compilado. */
-export interface DocumentPage {
-  page: number;
-  /** Peça a que a folha pertence; `null` nas páginas órfãs. */
-  pieceName: string | null;
-  /** Título da peça — aparece apenas na primeira folha dela. */
-  title: string | null;
-  /** Rótulo da seção, ex.: "3. Estimativa das quantidades". */
-  section: string;
-  blocks: DocBlock[];
-}
-
 /** Folhas em que o NUP aparece grafado errado (origem da Obs. 23 da análise). */
 const NUP_TYPO_PAGES = [15, 91, 152];
-
-/** Molde de conteúdo de cada peça do processo. */
-interface PieceSpec {
-  title: string;
-  sections: string[];
-  paragraphs: string[];
-  /** Formato predominante das folhas. */
-  layout: "texto" | "tabela" | "clausula" | "justificativa";
-  signature?: { name: string; role: string };
-}
 
 const ITENS = [
   "Monitor multiparamétrico de sinais vitais",
@@ -56,7 +25,7 @@ const FORNECEDORES = [
   "Hospitalar Brasil Importação Ltda.",
 ];
 
-const SPECS: Record<string, PieceSpec> = {
+const SPECS = {
   p01: {
     title: "Estudo Técnico Preliminar",
     layout: "texto",
@@ -191,7 +160,7 @@ const SPECS: Record<string, PieceSpec> = {
 };
 
 /** Molde padrão das peças curtas de justificativa. */
-const JUSTIFICATIVA: Record<string, { title: string; paragraphs: string[] }> = {
+const JUSTIFICATIVA = {
   p05: {
     title: "Justificativa de Natureza Continuada",
     paragraphs: [
@@ -247,19 +216,19 @@ const JUSTIFICATIVA_EXTRA = [
 ];
 
 /** Hash determinístico — mantém o conteúdo estável entre renderizações. */
-function hash(n: number) {
+function hash(n) {
   let h = (n * 2654435761) % 4294967296;
   h ^= h >>> 15;
   return Math.abs(h);
 }
 
 /** Escolha ciclada pela página — garante que folhas vizinhas nunca coincidam. */
-function pick<T>(pool: T[], seed: number, offset = 0): T {
+function pick(pool, seed, offset = 0) {
   return pool[(seed + offset) % pool.length];
 }
 
 /** Tabela de itens/preços variando por folha. */
-function itemTable(page: number, withPrice: boolean): DocBlock {
+function itemTable(page, withPrice) {
   const first = hash(page) % (ITENS.length - 3);
   const rows = Array.from({ length: 4 }, (_, i) => {
     const idx = (first + i) % ITENS.length;
@@ -278,7 +247,7 @@ function itemTable(page: number, withPrice: boolean): DocBlock {
 }
 
 /** Tabela de cotações por fornecedor. */
-function quoteTable(page: number): DocBlock {
+function quoteTable(page) {
   const item = ITENS[hash(page) % ITENS.length];
   return {
     kind: "table",
@@ -295,8 +264,8 @@ function quoteTable(page: number): DocBlock {
 }
 
 /** Folhas órfãs: material digitalizado sem peça atribuída. */
-function orphanBlocks(page: number): DocBlock[] {
-  const variants: DocBlock[][] = [
+function orphanBlocks(page) {
+  const variants = [
     [
       { kind: "paragraph", text: "Folha digitalizada sem cabeçalho identificável. Conteúdo ilegível na margem superior." },
       { kind: "paragraph", text: "Carimbo parcial: “RECEBIDO EM ___/___/2026 — PROTOCOLO GERAL”." },
@@ -321,7 +290,7 @@ function orphanBlocks(page: number): DocBlock[] {
 }
 
 /** Conteúdo da folha `page` do documento compilado. */
-export function getDocumentPage(page: number): DocumentPage {
+export function getDocumentPage(page) {
   const piece = SUMARIO_PIECES.find(
     (p) => p.startPage !== null && p.endPage !== null && page >= p.startPage && page <= p.endPage,
   );
@@ -336,7 +305,7 @@ export function getDocumentPage(page: number): DocumentPage {
     };
   }
 
-  const offset = page - (piece.startPage as number);
+  const offset = page - (piece.startPage);
   const isFirst = offset === 0;
   const isLast = page === piece.endPage;
 
@@ -354,14 +323,14 @@ export function getDocumentPage(page: number): DocumentPage {
       section: `Fundamentação — item ${offset + 1}`,
       blocks: [
         ...own.map((text, i) => ({
-          kind: "paragraph" as const,
+          kind: "paragraph",
           text: `Art. ${offset + i + 1}º ${text}`,
         })),
-        { kind: "paragraph" as const, text: pick(JUSTIFICATIVA_EXTRA, page) },
+        { kind: "paragraph", text: pick(JUSTIFICATIVA_EXTRA, page) },
         ...(isLast
           ? [
               {
-                kind: "signature" as const,
+                kind: "signature",
                 name: "Ricardo Antunes de Melo",
                 role: "Coordenador de Assistência Hospitalar — SESA",
               },
@@ -377,7 +346,7 @@ export function getDocumentPage(page: number): DocumentPage {
   const prefix = spec.layout === "clausula" ? "CLÁUSULA" : "SEÇÃO";
   const section = `${prefix} ${sectionIndex + 1}${round > 0 ? `.${round}` : ""} — ${spec.sections[sectionIndex]}`;
 
-  const blocks: DocBlock[] = [
+  const blocks = [
     { kind: "paragraph", text: pick(spec.paragraphs, page) },
     { kind: "paragraph", text: pick(spec.paragraphs, page, 1) },
   ];

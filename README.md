@@ -10,7 +10,7 @@ filtros por parecer, alteração de pareceres e visualização do documento.
 
 ## Tecnologias
 
-- [React 18](https://react.dev/) + [TypeScript](https://www.typescriptlang.org/)
+- [React 18](https://react.dev/) — JavaScript puro, sem etapa de compilação de tipos
 - [Vite](https://vitejs.dev/) (dev server e build)
 - [React Router](https://reactrouter.com/) (navegação entre telas)
 - CSS Modules + tokens de tema (`src/theme`)
@@ -53,12 +53,11 @@ O Vite recarrega a página automaticamente a cada alteração no código.
 
 ## Scripts disponíveis
 
-| Comando             | Descrição                                              |
-| ------------------- | ------------------------------------------------------ |
-| `npm run dev`       | Sobe o servidor de desenvolvimento com hot reload      |
-| `npm run build`     | Verifica os tipos e gera a versão de produção em `dist/` |
-| `npm run preview`   | Serve localmente o conteúdo de `dist/` para conferência |
-| `npm run typecheck` | Roda apenas a checagem de tipos do TypeScript          |
+| Comando           | Descrição                                               |
+| ----------------- | ------------------------------------------------------- |
+| `npm run dev`     | Sobe o servidor de desenvolvimento com hot reload       |
+| `npm run build`   | Gera a versão de produção em `dist/`                    |
+| `npm run preview` | Serve localmente o conteúdo de `dist/` para conferência |
 
 ## Gerar e visualizar a build de produção
 
@@ -81,7 +80,32 @@ src/
 │   ├── HomePage/      # Lista de análises + modal "Nova análise"
 │   └── AnalysisPage/  # Visor de PDF + painel de análise
 └── theme/         # Tokens de cor, tipografia, espaçamento e raios
+    └── tokens/    # As 3 camadas do design system + README próprio
 ```
+
+O projeto é **JavaScript puro** (`.js` / `.jsx`). Não há TypeScript, nem
+`tsconfig`, nem etapa de checagem de tipos: se o código roda, o build publica.
+Os formatos dos dados de demonstração estão documentados em
+[`src/data/types.js`](src/data/types.js) como comentários JSDoc — o editor usa
+para autocompletar, mas nada é verificado no build.
+
+### Dependências
+
+Cinco pacotes, todos em uso:
+
+| Pacote | Para quê |
+| --- | --- |
+| `react`, `react-dom` | a interface |
+| `react-router-dom` | as duas rotas |
+| `vite`, `@vitejs/plugin-react` | servidor de desenvolvimento e build |
+
+### Estilos
+
+Todo CSS é [CSS Modules](https://github.com/css-modules/css-modules)
+(`*.module.css`), um arquivo por componente, e **só consome tokens semânticos**
+de `src/theme`. Ao trazer uma tela nova do Figma, use as variáveis já existentes
+em vez de escrever cor, medida ou raio na mão — a regra e a lista completa estão
+em [`src/theme/tokens/README.md`](src/theme/tokens/README.md).
 
 ### Rotas
 

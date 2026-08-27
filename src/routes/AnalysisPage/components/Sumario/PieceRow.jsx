@@ -1,38 +1,13 @@
 import { useState } from "react";
-import { CheckIcon, XmarkIcon, PenToSquareIcon } from "@/components/icons";
-import type { DocumentPiece } from "@/data/types";
+import { CheckIcon, XmarkIcon, PenToSquareIcon, TrashIcon } from "@/components/icons";
 import styles from "./PieceRow.module.css";
 
-export interface PieceDraft {
-  name: string;
-  startPage: string;
-  endPage: string;
-}
-
-interface PieceRowProps {
-  piece: DocumentPiece;
-  selected: boolean;
-  onSelect: () => void;
-  /** Entra em edição (`atual`) a partir de `idle`, `ausente` ou `orfa`. */
-  onEdit: () => void;
-  /** Confirma a peça (de `idle`) ou salva a edição (de `atual`). */
-  onConfirm: (draft?: PieceDraft) => void;
-  /** Sai da edição sem salvar. */
-  onCancel: () => void;
-  /** Volta de `confirmada` para `idle`. */
-  onUndo: () => void;
-  /** "Não se aplica" (ausente) / "Ignorar" (órfã) — remove a linha. */
-  onDismiss: () => void;
-  /** Leva o visualizador direto para a página clicada. */
-  onGoToPage: (page: number) => void;
-}
-
 /** Círculo com o número da peça (`Sumário/Peça-número`). */
-function PieceNumber({ piece }: { piece: DocumentPiece }) {
+function PieceNumber({ piece, variant }) {
   const label =
     piece.state === "orfa" ? "!" : piece.state === "ausente" ? "—" : String(piece.order ?? "—");
   return (
-    <span className={`${styles.number} ${styles[`number_${piece.state}`] ?? ""}`} aria-hidden="true">
+    <span className={`${styles.number} ${styles[`number_${variant}`] ?? ""}`} aria-hidden="true">
       {label}
     </span>
   );
@@ -40,40 +15,41 @@ function PieceNumber({ piece }: { piece: DocumentPiece }) {
 
 /**
  * Linha da tabela de peças (`Sumário/Linha-peça`).
- * Estados: idle, confirmada, atual (em edição), ausente, órfã.
+ * Estados: idle, atual (em edição), ausente, órfã.
+ *
+ * `editing` é a variante `atual`. Ele vem de fora, e não do `piece.state`, para
+ * a peça não perder o próprio estado enquanto está sendo editada.
+ *
+ * As ações são as mesmas em toda linha parada — remover e editar. Só a linha
+ * em edição troca o par por cancelar e salvar.
  */
 export function PieceRow({
   piece,
-  selected,
+  editing,
   onSelect,
   onEdit,
-  onConfirm,
+  onSave,
   onCancel,
-  onUndo,
-  onDismiss,
+  onRemove,
   onGoToPage,
-}: PieceRowProps) {
-  const [draft, setDraft] = useState<PieceDraft>({
+}) {
+  const [draft, setDraft] = useState({
     name: piece.name,
     startPage: piece.startPage?.toString() ?? "",
     endPage: piece.endPage?.toString() ?? "",
   });
 
-  const editing = piece.state === "atual";
   const missing = piece.state === "ausente";
-
-  const rowClass = [
-    styles.row,
-    styles[`row_${piece.state}`],
-    selected && !editing ? styles.rowSelected : "",
-  ]
-    .filter(Boolean)
-    .join(" ");
+  const variant = editing ? "atual" : piece.state;
 
   return (
-    <div className={rowClass} onClick={onSelect} data-state={piece.state}>
+    <div
+      className={`${styles.row} ${styles[`row_${variant}`]}`}
+      onClick={onSelect}
+      data-state={variant}
+    >
       <div className={styles.colNumber}>
-        <PieceNumber piece={piece} />
+        <PieceNumber piece={piece} variant={variant} />
       </div>
 
       <div className={styles.colName}>
@@ -91,8 +67,8 @@ export function PieceRow({
         )}
       </div>
 
-      {missing ? (
-        <div className={styles.colMessage}>não localizada no documento</div>
+      {missing && !editing ? (
+        <div className={styles.colMessage}>não localizado</div>
       ) : (
         <>
           <div className={styles.colPage}>
@@ -147,34 +123,7 @@ export function PieceRow({
       )}
 
       <div className={styles.colActions} onClick={(e) => e.stopPropagation()}>
-        {piece.state === "idle" && (
-          <>
-            <button
-              className={styles.iconBtn}
-              type="button"
-              aria-label={`Editar ${piece.name}`}
-              onClick={onEdit}
-            >
-              <PenToSquareIcon />
-            </button>
-            <button
-              className={`${styles.iconBtn} ${styles.iconBtnBrand}`}
-              type="button"
-              aria-label={`Confirmar ${piece.name}`}
-              onClick={() => onConfirm()}
-            >
-              <CheckIcon />
-            </button>
-          </>
-        )}
-
-        {piece.state === "confirmada" && (
-          <button className={styles.linkBtn} type="button" onClick={onUndo}>
-            Desfazer confirmação
-          </button>
-        )}
-
-        {editing && (
+        {editing ? (
           <>
             <button
               className={`${styles.iconBtn} ${styles.iconBtnDanger}`}
@@ -185,34 +134,31 @@ export function PieceRow({
               <XmarkIcon />
             </button>
             <button
-              className={`${styles.iconBtn} ${styles.iconBtnBrand}`}
+              className={`${styles.iconBtn} ${styles.iconBtnSuccess}`}
               type="button"
               aria-label="Salvar peça"
-              onClick={() => onConfirm(draft)}
+              onClick={() => onSave(draft)}
             >
               <CheckIcon />
             </button>
           </>
-        )}
-
-        {missing && (
+        ) : (
           <>
-            <button className={styles.outlineBtn} type="button" onClick={onEdit}>
-              Apontar páginas
+            <button
+              className={`${styles.iconBtn} ${styles.iconBtnDanger}`}
+              type="button"
+              aria-label={`Remover ${piece.name}`}
+              onClick={onRemove}
+            >
+              <TrashIcon />
             </button>
-            <button className={styles.ghostBtn} type="button" onClick={onDismiss}>
-              Não se aplica
-            </button>
-          </>
-        )}
-
-        {piece.state === "orfa" && (
-          <>
-            <button className={styles.outlineBtn} type="button" onClick={onEdit}>
-              Atribuir à peça
-            </button>
-            <button className={styles.ghostBtn} type="button" onClick={onDismiss}>
-              Ignorar
+            <button
+              className={styles.iconBtn}
+              type="button"
+              aria-label={`Editar ${piece.name}`}
+              onClick={onEdit}
+            >
+              <PenToSquareIcon />
             </button>
           </>
         )}

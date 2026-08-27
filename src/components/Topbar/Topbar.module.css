@@ -7,21 +7,21 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 var(--spacing-48);
+  padding: 0 var(--inset-4xl);
   overflow: hidden;
-  border-bottom: 1px solid var(--color-topbar-divider);
+  border-bottom: 1px solid var(--color-border-gov-divider);
   background:
     linear-gradient(
       270deg,
-      color-mix(in srgb, var(--color-topbar-shade) 62%, transparent) 0%,
+      color-mix(in srgb, var(--color-surface-gov-shade) 62%, transparent) 0%,
       transparent 3%
     ),
     linear-gradient(
       90deg,
-      color-mix(in srgb, var(--color-topbar-shade) 68%, transparent) 0%,
+      color-mix(in srgb, var(--color-surface-gov-shade) 68%, transparent) 0%,
       transparent 8.5%
     ),
-    var(--color-topbar-base);
+    var(--color-surface-gov);
 }
 
 .logo {
@@ -31,27 +31,25 @@
 .user {
   display: flex;
   align-items: center;
-  gap: var(--spacing-8);
+  gap: var(--inline-xs);
   width: 263px;
-  padding: var(--spacing-8) var(--spacing-12) var(--spacing-8) var(--spacing-16);
-  background: var(--color-topbar-user);
-  border: 1px solid var(--color-topbar-user-border);
-  border-radius: var(--radius-8);
+  padding: var(--inset-xs) var(--inset-sm) var(--inset-xs) var(--inset-md);
+  background: var(--color-surface-gov-pill);
+  border: 1px solid var(--color-border-gov-pill);
+  border-radius: var(--corner-md);
   color: var(--color-text-inverse);
   cursor: pointer;
   transition: background 0.15s;
 }
 
 .user:hover {
-  background: var(--color-topbar-user-border);
+  background: var(--color-surface-gov-pill-hover);
 }
 
 .userName {
   flex: 1;
   min-width: 0;
-  font-size: var(--text-small-semibold-size);
-  font-weight: var(--text-small-semibold-weight);
-  line-height: var(--text-small-semibold-line-height);
+  font: var(--type-label-md-strong);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

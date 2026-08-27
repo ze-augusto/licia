@@ -1,17 +1,10 @@
 import { Link } from "react-router-dom";
 import { ArrowLeft } from "@/components/icons";
-import type { AnalysisDocument } from "@/data/types";
 import { DocumentCard } from "./DocumentCard";
 import styles from "./PdfPanel.module.css";
 
-interface PdfPanelProps {
-  nup: string;
-  subject: string;
-  document: AnalysisDocument;
-}
-
 /** Visor do PDF do processo (lado esquerdo da análise). */
-export function PdfPanel({ nup, subject, document }: PdfPanelProps) {
+export function PdfPanel({ nup, subject, document }) {
   return (
     <div className={styles.panel}>
       <div className={styles.header}>

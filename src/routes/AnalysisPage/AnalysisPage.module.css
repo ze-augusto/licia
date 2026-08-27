@@ -3,7 +3,7 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: var(--color-bg-page);
+  background: var(--color-surface-page);
 }
 
 .content {
@@ -11,7 +11,7 @@
   height: calc(100vh - 64px);
   display: flex;
   align-items: flex-start;
-  gap: var(--spacing-16);
-  padding-top: var(--spacing-20);
+  gap: var(--inline-md);
+  padding-top: var(--inset-lg);
   overflow: hidden;
 }

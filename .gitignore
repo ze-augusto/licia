@@ -4,11 +4,13 @@ node_modules
 # Build
 dist
 dist-ssr
-*.tsbuildinfo
 
 # Vite
 .vite
 *.local
+
+# Vercel (o deploy builda do fonte; .vercel guarda o vínculo local do projeto)
+.vercel
 
 # Logs
 logs

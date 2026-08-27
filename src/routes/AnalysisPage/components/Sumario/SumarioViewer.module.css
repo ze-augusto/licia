@@ -1,50 +1,45 @@
+/* Painel esquerdo do corpo — Figma `Visualizador` (276:3592).
+   Acompanha a rolagem grudado no topo enquanto a tabela cresce. */
 .viewer {
   position: sticky;
   top: 0;
   align-self: flex-start;
+  flex: 1;
+  min-width: 0;
   max-height: calc(100vh - 64px);
+  display: flex;
+  padding: var(--inset-md) 0 0 var(--inset-2xl);
+}
+
+.card {
   flex: 1;
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-8);
-  padding: var(--spacing-16);
-  background: var(--color-bg-card);
-  border-left: 1px solid var(--color-border-default);
+  background: var(--color-surface-card);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--corner-md);
   overflow: hidden;
 }
 
-.title {
-  font-size: var(--text-small-semibold-size);
-  font-weight: var(--text-small-semibold-weight);
-  line-height: var(--text-small-semibold-line-height);
-  color: var(--color-text-title);
-}
-
+/* Nome da peça em foco. */
 .context {
-  padding: var(--spacing-8) var(--spacing-12);
-  border: 1px solid var(--color-border-default);
-  border-radius: var(--radius-8);
-  font-size: var(--text-caption-size);
-  line-height: var(--text-caption-line-height);
-  color: var(--color-text-title);
-}
-
-.pdf {
-  flex: 1;
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
+  flex-shrink: 0;
+  padding: var(--inset-sm) var(--inset-md);
+  font: var(--type-body-md-strong);
+  color: var(--color-text-heading);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .toolbar {
   flex-shrink: 0;
   display: flex;
   align-items: center;
-  gap: var(--spacing-16);
-  padding: var(--spacing-8) var(--spacing-16) var(--spacing-8) var(--spacing-32);
-  background: var(--color-bg-toolbar);
-  border: 1px solid var(--color-border-viewer);
+  gap: var(--inline-md);
+  padding: var(--inset-xs) var(--inset-md) var(--inset-xs) var(--inset-2xl);
+  background: var(--color-surface-toolbar);
 }
 
 .fileName {
@@ -61,36 +56,35 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: var(--spacing-8);
-  background: var(--color-bg-card);
+  padding: var(--inset-xs);
+  background: var(--color-surface-card);
   border: 1px solid var(--color-border-default);
-  border-radius: var(--radius-8);
-  color: var(--color-icon-default);
+  border-radius: var(--corner-md);
+  color: var(--color-text-primary);
   cursor: pointer;
   transition: background 0.12s;
 }
 
 .miniBtn:hover {
-  background: var(--color-bg-hover);
+  background: var(--color-surface-hover);
 }
 
 .pageBox {
   display: flex;
   align-items: center;
-  gap: var(--spacing-8);
+  gap: var(--inline-2xs);
 }
 
 .pageInput {
   width: 40px;
   height: 26px;
-  background: var(--color-bg-card);
-  border: 1px solid var(--color-border-viewer);
-  border-radius: var(--radius-4);
+  background: var(--color-surface-card);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--corner-sm);
   outline: none;
   text-align: center;
-  font-family: var(--font-family-base);
-  font-size: var(--font-size-12);
-  color: var(--color-text-body);
+  font-size: var(--type-caption-md-size);
+  color: var(--color-text-primary);
 }
 
 .pageTotal {
@@ -98,12 +92,11 @@
   color: var(--color-text-secondary);
 }
 
+/* Sem inset embaixo: a folha do PDF encosta na base do card. */
 .documentArea {
   flex: 1;
   min-height: 0;
-  padding: var(--spacing-32);
-  background: var(--color-bg-viewer);
-  border: 1px solid var(--color-border-viewer);
-  border-top: none;
+  padding: var(--inset-2xl) var(--inset-2xl) 0;
+  background: var(--color-surface-viewer);
   overflow-y: auto;
 }

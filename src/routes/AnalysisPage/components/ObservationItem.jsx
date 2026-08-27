@@ -1,14 +1,5 @@
 import { AccordionChevron } from "@/components/icons";
-import type { Observation } from "@/data/types";
 import styles from "./AnalysisPanel.module.css";
-
-interface ObservationItemProps {
-  observation: Observation;
-  open: boolean;
-  checked: boolean;
-  onToggleOpen: () => void;
-  onToggleChecked: () => void;
-}
 
 /** Observação da aba Técnica (item neutro, sem situação). */
 export function ObservationItem({
@@ -17,14 +8,14 @@ export function ObservationItem({
   checked,
   onToggleOpen,
   onToggleChecked,
-}: ObservationItemProps) {
+}) {
   return (
     <div className={`${styles.item} ${styles.itemObs} ${open ? styles.itemOpen : ""}`}>
       <div className={styles.itemInner}>
         <div
           className={styles.itemHeader}
           onClick={(event) => {
-            if ((event.target as HTMLElement).closest(`.${styles.checkbox}`)) return;
+            if ((event.target).closest(`.${styles.checkbox}`)) return;
             onToggleOpen();
           }}
         >

@@ -1,16 +1,7 @@
-import { getDocumentPage, type DocBlock } from "@/data/documentPages";
+import { getDocumentPage, } from "@/data/documentPages";
 import styles from "./DocumentCard.module.css";
 
-interface DocumentCardProps {
-  nup: string;
-  totalPages: number;
-  /** Folha exibida. */
-  page?: number;
-  /** Versão reduzida, usada no visualizador estreito do sumário. */
-  compact?: boolean;
-}
-
-function Block({ block }: { block: DocBlock }) {
+function Block({ block }) {
   switch (block.kind) {
     case "heading":
       return <h3 className={styles.blockHeading}>{block.text}</h3>;
@@ -68,7 +59,7 @@ function Block({ block }: { block: DocBlock }) {
  * modo que cada página do documento compilado tem texto próprio — trocar de
  * folha muda visivelmente o que está na tela.
  */
-export function DocumentCard({ nup, totalPages, page = 1, compact = false }: DocumentCardProps) {
+export function DocumentCard({ nup, totalPages, page = 1, compact = false }) {
   const content = getDocumentPage(page);
 
   return (

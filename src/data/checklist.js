@@ -1,11 +1,9 @@
-import type { ChecklistGroup } from "./types";
-
 /**
  * Checklist da análise (dados de demonstração — NUP 24001.028501/2025-75).
  * Itens com status "na" representam verificações prejudicadas por dependência
  * de um item anterior e têm o checkbox desabilitado na interface.
  */
-export const CHECKLIST_GROUPS: ChecklistGroup[] = [
+export const CHECKLIST_GROUPS = [
   {
     id: "dados-gerais",
     label: "DADOS GERAIS",

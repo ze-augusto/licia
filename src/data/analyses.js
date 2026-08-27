@@ -1,15 +1,13 @@
-import type { AnalysisSummary } from "./types";
-
 const SUBJECT = {
   aparelhos:
     "EQUIPAMENTOS E MATERIAL PERMANENTE - APARELHOS, EQUIPAMENTOS, UTENSÍLIOS MÉDICO-ODONTOLÓGICO, LABORATORIAL E HOSPITALAR",
   hospitalar: "EQUIPAMENTOS E MATERIAL PERMANENTE - MATERIAL HOSPITALAR",
   farmacologico: "MATERIAL DE CONSUMO - MATERIAL FARMACOLÓGICO",
   laboratorial: "EQUIPAMENTOS E MATERIAL PERMANENTE - MATERIAL LABORATORIAL",
-} as const;
+};
 
 /** Lista de análises exibida na página inicial. */
-export const ANALYSES: AnalysisSummary[] = [
+export const ANALYSES = [
   {
     id: "1",
     nup: "74037.000634/2024-22",

@@ -1,14 +1,6 @@
 import { CheckIcon } from "@/components/icons";
 import styles from "./CompletionModal.module.css";
 
-interface CompletionModalProps {
-  open: boolean;
-  title: string;
-  text: string;
-  confirmLabel: string;
-  onConfirm: () => void;
-}
-
 /** Diálogo de conclusão de etapa (não-conformes / checklist). */
 export function CompletionModal({
   open,
@@ -16,7 +8,7 @@ export function CompletionModal({
   text,
   confirmLabel,
   onConfirm,
-}: CompletionModalProps) {
+}) {
   if (!open) return null;
 
   return (

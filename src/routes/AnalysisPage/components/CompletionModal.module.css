@@ -5,21 +5,21 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: color-mix(in srgb, var(--color-preto-1000) 45%, transparent);
+  background: var(--color-surface-overlay);
 }
 
 .modal {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--spacing-16);
+  gap: var(--stack-md);
   width: 90%;
   max-width: 420px;
-  padding: var(--spacing-32) var(--spacing-40);
+  padding: var(--inset-2xl) var(--inset-3xl);
   text-align: center;
-  background: var(--color-bg-card);
-  border-radius: var(--radius-8);
-  box-shadow: var(--shadow-modal);
+  background: var(--color-surface-card);
+  border-radius: var(--corner-md);
+  box-shadow: var(--elevation-modal);
 }
 
 .icon {
@@ -28,37 +28,33 @@
   justify-content: center;
   width: 56px;
   height: 56px;
-  border-radius: var(--radius-full);
-  background: var(--color-brand-muted);
-  color: var(--color-brand-default);
+  border-radius: var(--corner-pill);
+  background: var(--color-surface-brand-muted);
+  color: var(--color-text-brand);
 }
 
 .title {
-  font-size: var(--font-size-16);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-text-title);
+  font: var(--type-body-md-bold);
+  color: var(--color-text-heading);
 }
 
 .text {
-  font-size: var(--text-small-size);
-  line-height: var(--text-small-line-height);
+  font: var(--type-body-sm);
   color: var(--color-text-secondary);
 }
 
 .confirm {
-  margin-top: var(--spacing-4);
-  padding: var(--spacing-10) var(--spacing-32);
-  background: var(--color-brand-default);
+  margin-top: var(--stack-2xs);
+  padding: var(--inset-control) var(--inset-2xl);
+  background: var(--color-surface-brand);
   border: none;
-  border-radius: var(--radius-8);
+  border-radius: var(--corner-md);
   color: var(--color-text-inverse);
-  font-family: var(--font-family-base);
-  font-size: var(--text-small-semibold-size);
-  font-weight: var(--text-small-semibold-weight);
+  font: var(--type-label-md-strong);
   cursor: pointer;
   transition: background 0.15s;
 }
 
 .confirm:hover {
-  background: var(--color-brand-hover);
+  background: var(--color-surface-brand-hover);
 }

@@ -14,7 +14,7 @@ import styles from "./AnalysisPage.module.css";
  * checklist.
  */
 export function AnalysisPage() {
-  const { id } = useParams<{ id: string }>();
+  const { id } = useParams();
 
   // Enquanto não há back-end, o conteúdo da análise é o de demonstração.
   // O cabeçalho usa o NUP/assunto da linha selecionada, quando existir.
@@ -22,7 +22,7 @@ export function AnalysisPage() {
   const nup = summary?.nup ?? DEMO_ANALYSIS.nup;
   const subject = summary?.subject ?? DEMO_ANALYSIS.subject;
 
-  const [step, setStep] = useState<"sumario" | "analise">(
+  const [step, setStep] = useState(
     id === "nova" ? "sumario" : "analise",
   );
 
@@ -32,6 +32,7 @@ export function AnalysisPage() {
         <Topbar />
         <SumarioStep
           nup={nup}
+          subject={subject}
           document={DEMO_ANALYSIS.document}
           onConfirm={() => setStep("analise")}
         />
