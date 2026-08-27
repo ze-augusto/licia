@@ -3,33 +3,21 @@ import { XmarkIcon, UploadIcon, CircleCheckIcon, TrashIcon } from "@/components/
 import styles from "./NewAnalysisModal.module.css";
 
 /** Formata bytes em KB/MB no padrão pt-BR (ex.: "30,4KB"). */
-function formatSize(bytes: number) {
+function formatSize(bytes) {
   if (bytes < 1024 * 1024) {
     return `${(bytes / 1024).toFixed(1).replace(".", ",")}KB`;
   }
   return `${(bytes / (1024 * 1024)).toFixed(1).replace(".", ",")}MB`;
 }
 
-export interface NewAnalysisData {
-  nup: string;
-  subject: string;
-  file: File;
-}
-
-interface NewAnalysisModalProps {
-  open: boolean;
-  onClose: () => void;
-  onConfirm: (data: NewAnalysisData) => void;
-}
-
 /** Modal de criação de uma nova análise: NUP, objeto da contratação e upload. */
-export function NewAnalysisModal({ open, onClose, onConfirm }: NewAnalysisModalProps) {
+export function NewAnalysisModal({ open, onClose, onConfirm }) {
   const [nup, setNup] = useState("");
   const [subject, setSubject] = useState("");
-  const [file, setFile] = useState<File | null>(null);
+  const [file, setFile] = useState(null);
   const [dragging, setDragging] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const fileInputRef = useRef(null);
 
   // Reinicia o formulário sempre que o modal abre.
   useEffect(() => {
@@ -44,7 +32,7 @@ export function NewAnalysisModal({ open, onClose, onConfirm }: NewAnalysisModalP
 
   useEffect(() => {
     if (!open) return;
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && !submitting && onClose();
+    const onKey = (e) => e.key === "Escape" && !submitting && onClose();
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
   }, [open, onClose, submitting]);
@@ -53,7 +41,7 @@ export function NewAnalysisModal({ open, onClose, onConfirm }: NewAnalysisModalP
 
   const valid = nup.trim() !== "" && subject.trim() !== "" && file !== null;
 
-  function pickFile(files: FileList | null) {
+  function pickFile(files) {
     const picked = files?.[0];
     if (picked) setFile(picked);
   }

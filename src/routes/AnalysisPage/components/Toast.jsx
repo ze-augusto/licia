@@ -2,16 +2,8 @@ import { useEffect, useState } from "react";
 import { CheckIcon, XmarkIcon } from "@/components/icons";
 import styles from "./Toast.module.css";
 
-interface ToastProps {
-  title: string;
-  message: string;
-  /** Tempo visível antes de iniciar a saída (ms). */
-  duration?: number;
-  onClose: () => void;
-}
-
 /** Toast de sucesso: entra pela direita e some sozinho após `duration`. */
-export function Toast({ title, message, duration = 5000, onClose }: ToastProps) {
+export function Toast({ title, message, duration = 5000, onClose }) {
   const [leaving, setLeaving] = useState(false);
 
   useEffect(() => {

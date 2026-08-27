@@ -1,11 +1,11 @@
-/* Linha da tabela de peças — Figma `Sumário/Linha-peça` (252:10966 e variações).
-   Colunas: nº 44 · peça flex · pág. inicial 92 · pág. final 92 · ações 292. */
+/* Linha da tabela de peças — Figma `Sumário/Linha-peça` (258:3529).
+   Colunas: nº 44 · peça flex · pág. inicial 72 · pág. final 64 · ações 164. */
 .row {
   display: flex;
   align-items: center;
-  gap: var(--spacing-8);
+  gap: var(--inline-xs);
   min-height: 52px;
-  padding: var(--spacing-8) var(--spacing-12);
+  padding: var(--inset-xs) var(--inset-sm);
   border-bottom: 1px solid var(--color-border-subtle);
   cursor: pointer;
 }
@@ -32,15 +32,20 @@
   flex-shrink: 0;
   display: flex;
   align-items: center;
-  width: 92px;
+  width: 72px;
 }
 
+/* a segunda coluna de página é mais estreita (64) que a primeira (72) */
+.colPage + .colPage {
+  width: 64px;
+}
+
+/* Ocupa as duas colunas de página, para o texto começar sob "PÁG. INICIAL". */
 .colMessage {
   flex-shrink: 0;
-  width: 192px;
-  font-size: var(--text-caption-size);
-  line-height: var(--text-caption-line-height);
-  color: var(--color-error-default);
+  width: 144px;
+  font: var(--type-caption-md);
+  color: var(--color-text-danger);
 }
 
 .colActions {
@@ -48,8 +53,8 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: var(--spacing-8);
-  width: 292px;
+  gap: var(--inline-md);
+  width: 164px;
 }
 
 /* ── Número circular (`Sumário/Peça-número`) ── */
@@ -59,32 +64,24 @@
   justify-content: center;
   width: 22px;
   height: 22px;
-  border-radius: var(--radius-full);
+  border-radius: var(--corner-pill);
   border: 1px solid var(--color-border-strong);
-  background: var(--color-bg-card);
-  font-size: var(--text-caption-semibold-size);
-  font-weight: var(--font-weight-semibold);
-  line-height: var(--line-height-16);
-  color: var(--color-text-body);
-}
-
-.number_confirmada {
-  background: var(--color-success-default);
-  border-color: var(--color-success-default);
-  color: var(--color-text-inverse);
+  background: var(--color-surface-card);
+  font: var(--type-caption-md-strong);
+  color: var(--color-text-primary);
 }
 
 .number_atual {
-  background: var(--color-brand-default);
-  border-color: var(--color-brand-default);
+  background: var(--color-surface-brand);
+  border-color: var(--color-border-brand);
   color: var(--color-text-inverse);
 }
 
 .number_ausente,
 .number_orfa {
   border-style: dashed;
-  border-color: var(--color-error-default);
-  color: var(--color-error-default);
+  border-color: var(--color-border-danger);
+  color: var(--color-text-danger);
 }
 
 /* ── Texto ── */
@@ -92,9 +89,8 @@
 .page {
   flex: 1;
   min-width: 0;
-  font-size: var(--text-small-size);
-  line-height: var(--text-small-line-height);
-  color: var(--color-text-body);
+  font: var(--type-body-sm);
+  color: var(--color-text-primary);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -105,7 +101,6 @@
   padding: 0;
   border: none;
   background: none;
-  font-family: var(--font-family-base);
   text-align: left;
   color: var(--color-text-brand);
   cursor: pointer;
@@ -117,63 +112,46 @@
 
 .input {
   width: 100%;
-  padding: var(--spacing-8) var(--spacing-12);
-  background: var(--color-bg-card);
-  border: 1px solid var(--color-brand-default);
-  border-radius: var(--radius-8);
+  padding: var(--inset-xs) var(--inset-sm);
+  background: var(--color-surface-card);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--corner-md);
   outline: none;
-  font-family: var(--font-family-base);
-  font-size: var(--text-small-size);
-  line-height: var(--text-small-line-height);
-  color: var(--color-text-body);
+  font: var(--type-body-sm);
+  color: var(--color-text-primary);
 }
 
 /* ── Variação: idle ── */
 .row_idle {
-  background: var(--color-bg-card);
+  background: var(--color-surface-card);
 }
 
 .row_idle:hover {
-  background: var(--color-bg-subtle);
-}
-
-/* ── Variação: confirmada ── */
-.row_confirmada {
-  background: var(--color-bg-subtle);
-}
-
-.row_confirmada .name,
-.row_confirmada .page {
-  color: var(--color-text-secondary);
+  background: var(--color-surface-subtle);
 }
 
 /* ── Variação: atual (em edição) ── */
 .row_atual {
-  background: var(--color-brand-muted);
-  border-bottom: none;
-  border-left: 3px solid var(--color-brand-default);
-  padding-left: calc(var(--spacing-12) - 3px);
+  background: var(--color-surface-subtle);
+  border: 1px solid var(--color-border-brand);
+  /* a borda de 1px substitui a divisória: repõe o pixel para a linha não pular */
+  padding: calc(var(--inset-xs) - 1px) calc(var(--inset-sm) - 1px);
 }
 
 /* ── Variações: ausente e órfã ── */
 .row_ausente,
 .row_orfa {
-  background: var(--color-error-subtle);
+  background: var(--color-surface-danger);
 }
 
 .row_ausente .name,
 .row_orfa .name,
 .row_orfa .page {
-  color: var(--color-error-default);
+  color: var(--color-text-danger);
 }
 
 .row_orfa .name {
   font-style: italic;
-}
-
-/* Linha selecionada (reflete o segmento destacado no mapa). */
-.rowSelected {
-  box-shadow: inset 3px 0 0 var(--color-brand-default);
 }
 
 /* ── Ações ── */
@@ -181,17 +159,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: var(--spacing-8);
+  padding: var(--inset-xs);
   border: none;
   background: none;
-  border-radius: var(--radius-8);
-  color: var(--color-icon-default);
+  border-radius: var(--corner-md);
+  color: var(--color-text-primary);
   cursor: pointer;
   transition: background 0.12s;
 }
 
 .iconBtn:hover {
-  background: var(--color-bg-hover);
+  background: var(--color-surface-hover);
 }
 
 .iconBtn svg {
@@ -199,58 +177,10 @@
   height: 20px;
 }
 
-.iconBtnBrand {
-  color: var(--color-icon-brand);
-}
-
 .iconBtnDanger {
-  color: var(--color-error-default);
+  color: var(--color-text-danger);
 }
 
-.outlineBtn,
-.ghostBtn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--spacing-8);
-  min-width: 120px;
-  padding: var(--spacing-8) var(--spacing-16);
-  border: none;
-  border-radius: var(--radius-8);
-  background: none;
-  font-family: var(--font-family-base);
-  font-size: var(--text-small-semibold-size);
-  font-weight: var(--text-small-semibold-weight);
-  line-height: var(--text-small-semibold-line-height);
-  color: var(--color-text-body);
-  cursor: pointer;
-  transition: background 0.12s;
-}
-
-.outlineBtn {
-  background: var(--color-bg-card);
-  border: 1px solid var(--color-border-default);
-}
-
-.outlineBtn:hover {
-  background: var(--color-bg-hover);
-}
-
-.ghostBtn:hover {
-  background: var(--color-bg-hover);
-}
-
-/* "Desfazer confirmação" — texto puro, sem caixa (Figma I252:10966;258:3463). */
-.linkBtn {
-  border: none;
-  background: none;
-  font-family: var(--font-family-base);
-  font-size: var(--text-small-size);
-  line-height: var(--text-small-line-height);
-  color: var(--color-text-body);
-  cursor: pointer;
-}
-
-.linkBtn:hover {
-  text-decoration: underline;
+.iconBtnSuccess {
+  color: var(--color-text-success);
 }

@@ -1,32 +1,20 @@
 import { ArrowLeft, ArrowRight } from "@/components/icons";
-import type { AnalysisDocument } from "@/data/types";
 import { DocumentCard } from "../DocumentCard";
 import styles from "./SumarioViewer.module.css";
 
-interface SumarioViewerProps {
-  nup: string;
-  document: AnalysisDocument;
-  page: number;
-  /** Peça correspondente à página em foco, exibida na faixa de contexto. */
-  context: string | null;
-  onPageChange: (page: number) => void;
-}
-
-/** Visualizador do PDF na etapa de sumário — versão estreita do visor da análise. */
-export function SumarioViewer({ nup, document, page, context, onPageChange }: SumarioViewerProps) {
-  const go = (delta: number) =>
+/**
+ * Visualizador do PDF na etapa de sumário. O cabeçalho do card nomeia a peça em
+ * foco (`2 - Termo de Referência`), como no Figma.
+ */
+export function SumarioViewer({ nup, document, page, context, onPageChange }) {
+  const go = (delta) =>
     onPageChange(Math.min(document.totalPages, Math.max(1, page + delta)));
 
   return (
     <aside className={styles.viewer}>
-      <h2 className={styles.title}>Visualizador</h2>
+      <div className={styles.card}>
+        <h2 className={styles.context}>{context}</h2>
 
-      <div className={styles.context}>
-        Página {page}
-        {context ? ` · ${context}` : ""}
-      </div>
-
-      <div className={styles.pdf}>
         <div className={styles.toolbar}>
           <span className={styles.fileName}>{document.fileName}</span>
           <button

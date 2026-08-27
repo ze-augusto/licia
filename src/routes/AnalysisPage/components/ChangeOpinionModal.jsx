@@ -1,34 +1,16 @@
 import { useEffect, useMemo, useState } from "react";
 import { XmarkIcon } from "@/components/icons";
-import {
-  STATUS_LABEL,
-  type ChecklistItem as ChecklistItemModel,
-  type ChecklistStatus,
-} from "@/data/types";
+import { STATUS_LABEL } from "@/data/types";
 import styles from "./ChangeOpinionModal.module.css";
 
-export interface OpinionChange {
-  status: ChecklistStatus;
-  comment: string;
-  pageMode: string;
-  pageNumber: string;
-}
-
-interface ChangeOpinionModalProps {
-  open: boolean;
-  item: ChecklistItemModel | null;
-  onClose: () => void;
-  onConfirm: (change: OpinionChange) => void;
-}
-
 /** Pareceres oferecidos no seletor (ordem de exibição). */
-const PARECER_OPTIONS: { status: ChecklistStatus; label: string }[] = [
+const PARECER_OPTIONS = [
   { status: "success", label: "Conforme" },
   { status: "error", label: "Não-conforme" },
   { status: "na", label: "Não se aplica" },
 ];
 
-const STATUS_CLASS: Record<ChecklistStatus, string> = {
+const STATUS_CLASS = {
   success: styles.cardSuccess,
   warning: styles.cardWarning,
   error: styles.cardError,
@@ -36,8 +18,8 @@ const STATUS_CLASS: Record<ChecklistStatus, string> = {
 };
 
 /** Modal para alterar o parecer de um item do checklist. */
-export function ChangeOpinionModal({ open, item, onClose, onConfirm }: ChangeOpinionModalProps) {
-  const [status, setStatus] = useState<ChecklistStatus | "">("");
+export function ChangeOpinionModal({ open, item, onClose, onConfirm }) {
+  const [status, setStatus] = useState("");
   const [comment, setComment] = useState("");
   const [pageMode, setPageMode] = useState("uma");
   const [pageNumber, setPageNumber] = useState("");
@@ -54,7 +36,7 @@ export function ChangeOpinionModal({ open, item, onClose, onConfirm }: ChangeOpi
 
   useEffect(() => {
     if (!open) return;
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    const onKey = (e) => e.key === "Escape" && onClose();
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
   }, [open, onClose]);
@@ -135,7 +117,7 @@ export function ChangeOpinionModal({ open, item, onClose, onConfirm }: ChangeOpi
                     id="parecer"
                     className={styles.select}
                     value={status}
-                    onChange={(e) => setStatus(e.target.value as ChecklistStatus)}
+                    onChange={(e) => setStatus(e.target.value)}
                   >
                     <option value="" disabled>
                       Selecione

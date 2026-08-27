@@ -2,7 +2,7 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  background: var(--color-bg-page);
+  background: var(--color-surface-page);
 }
 
 /* ── Cabeçalho ── */
@@ -10,96 +10,99 @@
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-4);
-  padding: var(--spacing-16) var(--spacing-24);
-  background: var(--color-bg-card);
+  gap: var(--stack-2xs);
+  padding: var(--inset-md) var(--inset-2xl);
+  background: var(--color-surface-card);
   border-bottom: 1px solid var(--color-border-default);
 }
 
 .titleLine {
   display: flex;
   align-items: center;
-  gap: var(--spacing-8);
+  gap: var(--inline-xs);
 }
 
 .back {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--color-icon-default);
+  color: var(--color-text-primary);
 }
 
 .title {
-  font-size: var(--text-body-semibold-size);
-  font-weight: var(--text-body-semibold-weight);
-  line-height: var(--text-body-semibold-line-height);
-  color: var(--color-text-title);
+  font: var(--type-body-md-strong);
+  color: var(--color-text-heading);
 }
 
 .meta {
-  font-size: var(--text-caption-size);
-  line-height: var(--text-caption-line-height);
+  font: var(--type-caption-md);
   color: var(--color-text-secondary);
 }
 
-/* ── Corpo: tabela + visualizador ── */
-/* A tabela cresce com o conteúdo e a página inteira rola; o visualizador
-   acompanha a rolagem grudado no topo. */
+/* ── Corpo: visualizador à esquerda, tabela à direita ──
+   As duas colunas dividem a largura em partes iguais. A tabela cresce com o
+   conteúdo e a página inteira rola; o visualizador acompanha grudado no topo. */
 .body {
   flex: 1;
   display: flex;
   align-items: flex-start;
+  gap: var(--inline-md);
 }
 
 .tablePane {
-  flex-shrink: 0;
+  flex: 1;
+  min-width: 0;
   display: flex;
-  flex-direction: column;
-  gap: var(--spacing-8);
-  width: 864px;
-  padding: var(--spacing-16);
+  padding: var(--inset-md) var(--inset-2xl) var(--inset-md) 0;
 }
 
-.alerts {
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-8);
-  padding: var(--spacing-8) 0;
-}
-
-.chip {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--spacing-4) var(--spacing-8);
-  background: var(--color-error-default);
-  border-radius: var(--radius-8);
-  font-size: var(--text-caption-semibold-size);
-  font-weight: var(--font-weight-semibold);
-  line-height: var(--line-height-16);
-  color: var(--color-text-inverse);
-}
-
-/* ── Tabela ── */
-.table {
-  background: var(--color-bg-card);
+.card {
+  flex: 1;
+  min-width: 0;
+  background: var(--color-surface-card);
   border: 1px solid var(--color-border-default);
-  border-radius: var(--radius-8);
+  border-radius: var(--corner-md);
   overflow: hidden;
 }
 
+.cardTitle {
+  padding: var(--inset-sm) var(--inset-md);
+  font: var(--type-body-md-strong);
+  color: var(--color-text-heading);
+}
+
+.alerts {
+  display: flex;
+  align-items: center;
+  gap: var(--inline-xs);
+  padding: var(--inset-sm) var(--inset-md);
+  border-top: 1px solid var(--color-border-default);
+  border-bottom: 1px solid var(--color-border-default);
+}
+
+/* `Tags` na variante error: fundo claro e contorno, não bloco sólido. */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--inset-2xs) var(--inset-xs);
+  background: var(--color-surface-danger);
+  border: 1px solid var(--color-border-danger);
+  border-radius: var(--corner-md);
+  font: var(--type-caption-md-strong);
+  color: var(--color-text-danger);
+}
+
+/* ── Tabela ── */
 .tableHead {
   display: flex;
   align-items: center;
-  gap: var(--spacing-8);
-  padding: var(--spacing-8) var(--spacing-12);
-  background: var(--color-bg-subtle);
+  gap: var(--inline-xs);
+  padding: var(--inset-xs) var(--inset-sm);
+  background: var(--color-surface-page);
   border-bottom: 1px solid var(--color-border-default);
-  font-size: var(--text-caption-semibold-size);
-  font-weight: var(--font-weight-semibold);
-  line-height: var(--line-height-16);
-  color: var(--color-text-secondary);
+  font: var(--type-caption-md-strong);
+  color: var(--color-text-primary);
 }
 
 .colNumber {
@@ -114,12 +117,16 @@
 
 .colPage {
   flex-shrink: 0;
-  width: 92px;
+  width: 72px;
+}
+
+.colPage + .colPage {
+  width: 64px;
 }
 
 .colActions {
   flex-shrink: 0;
-  width: 292px;
+  width: 164px;
   text-align: right;
 }
 
@@ -132,56 +139,52 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--spacing-12);
-  padding: var(--spacing-12) var(--spacing-24);
-  background: var(--color-bg-card);
+  gap: var(--inline-sm);
+  padding: var(--inset-sm) var(--inset-xl);
+  background: var(--color-surface-card);
   border-top: 1px solid var(--color-border-default);
 }
 
 .progress {
-  font-size: var(--text-caption-size);
-  line-height: var(--text-caption-line-height);
+  font: var(--type-caption-md);
   color: var(--color-text-secondary);
 }
 
 .actions {
   display: flex;
   align-items: center;
-  gap: var(--spacing-8);
+  gap: var(--inline-xs);
 }
 
 .btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--spacing-8);
+  gap: var(--inline-xs);
   min-width: 120px;
-  padding: var(--spacing-8) var(--spacing-16);
+  padding: var(--inset-xs) var(--inset-md);
   border: none;
-  border-radius: var(--radius-8);
-  font-family: var(--font-family-base);
-  font-size: var(--text-small-semibold-size);
-  font-weight: var(--text-small-semibold-weight);
-  line-height: var(--text-small-semibold-line-height);
+  border-radius: var(--corner-md);
+  font: var(--type-body-sm-strong);
   cursor: pointer;
   transition: background 0.15s;
 }
 
 .btnOutline {
-  background: var(--color-bg-card);
+  background: var(--color-surface-card);
   border: 1px solid var(--color-border-default);
-  color: var(--color-text-body);
+  color: var(--color-text-primary);
 }
 
 .btnOutline:hover {
-  background: var(--color-bg-hover);
+  background: var(--color-surface-hover);
 }
 
 .btnPrimary {
-  background: var(--color-brand-default);
+  background: var(--color-surface-brand);
   color: var(--color-text-inverse);
 }
 
 .btnPrimary:hover {
-  background: var(--color-brand-hover);
+  background: var(--color-surface-brand-hover);
 }

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Topbar } from "@/components/Topbar/Topbar";
-import { NewAnalysisModal, type NewAnalysisData } from "./NewAnalysisModal";
+import { NewAnalysisModal, } from "./NewAnalysisModal";
 import {
   SearchIcon,
   PlusIcon,
@@ -21,7 +21,7 @@ const COLUMNS = [
   { key: "subject", label: "Objeto da contratação", className: styles.colSubject },
   { key: "date", label: "Adicionado em", className: styles.colDate },
   { key: "addedBy", label: "Adicionado por", className: styles.colAddedBy },
-] as const;
+];
 
 const PAGES = [1, 2, 3, 4, 5];
 const CURRENT_PAGE = 1;
@@ -33,7 +33,7 @@ export function HomePage() {
   const [modalOpen, setModalOpen] = useState(false);
 
   // Sem back-end: a nova análise abre a tela de demonstração.
-  function handleCreate(_data: NewAnalysisData) {
+  function handleCreate(_data) {
     setModalOpen(false);
     navigate("/analise/nova");
   }

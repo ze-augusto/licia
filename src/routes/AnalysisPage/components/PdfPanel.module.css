@@ -4,7 +4,7 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  background: var(--color-bg-viewer);
+  background: var(--color-surface-viewer);
   border: 1px solid var(--color-border-default);
   overflow: hidden;
 }
@@ -13,10 +13,10 @@
   flex-shrink: 0;
   display: flex;
   align-items: center;
-  gap: var(--spacing-8);
+  gap: var(--inline-xs);
   height: 44px;
-  padding: 0 var(--spacing-16) 0 var(--spacing-32);
-  background: var(--color-bg-card);
+  padding: 0 var(--inset-md) 0 var(--inset-2xl);
+  background: var(--color-surface-card);
   border-bottom: 1px solid var(--color-border-default);
 }
 
@@ -27,16 +27,16 @@
   justify-content: center;
   width: 36px;
   height: 36px;
-  padding: var(--spacing-8);
+  padding: var(--inset-xs);
   border: none;
   background: none;
-  border-radius: var(--radius-8);
-  color: var(--color-text-body);
+  border-radius: var(--corner-md);
+  color: var(--color-text-primary);
   cursor: pointer;
 }
 
 .back:hover {
-  background: var(--color-bg-hover);
+  background: var(--color-surface-hover);
 }
 
 .info {
@@ -51,12 +51,10 @@
   flex-shrink: 0;
   display: flex;
   align-items: center;
-  padding-right: var(--spacing-16);
+  padding-right: var(--inset-md);
   border-right: 1px solid var(--color-border-strong);
-  font-size: var(--text-small-semibold-size);
-  font-weight: var(--text-small-semibold-weight);
-  line-height: var(--text-small-semibold-line-height);
-  color: var(--color-text-title);
+  font: var(--type-label-md-strong);
+  color: var(--color-text-heading);
   white-space: nowrap;
 }
 
@@ -65,9 +63,8 @@
   min-width: 0;
   display: flex;
   align-items: center;
-  padding-left: var(--spacing-16);
-  font-size: var(--text-caption-size);
-  line-height: var(--text-caption-line-height);
+  padding-left: var(--inset-md);
+  font: var(--type-caption-md);
   color: var(--color-text-secondary);
   white-space: nowrap;
   overflow: hidden;
@@ -87,14 +84,14 @@
   display: flex;
   align-items: center;
   height: 44px;
-  background: var(--color-bg-toolbar);
-  border: 1px solid var(--color-border-viewer);
+  background: var(--color-surface-toolbar);
+  border: 1px solid var(--color-border-default);
 }
 
 .toolbarName {
   position: absolute;
   left: 14px;
-  font-size: var(--font-size-12);
+  font-size: var(--type-caption-md-size);
   color: var(--color-text-secondary);
   white-space: nowrap;
 }
@@ -105,7 +102,7 @@
   transform: translateX(-50%);
   display: flex;
   align-items: center;
-  gap: var(--spacing-4);
+  gap: var(--inline-2xs);
 }
 
 .navBtn {
@@ -114,35 +111,34 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--color-bg-card);
-  border: 1px solid var(--color-border-viewer);
-  border-radius: var(--radius-4);
+  background: var(--color-surface-card);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--corner-sm);
   cursor: pointer;
-  font-size: var(--font-size-16);
-  color: var(--color-text-body);
+  font-size: var(--type-body-md-size);
+  color: var(--color-text-primary);
 }
 
 .navInput {
   width: 40px;
   height: 26px;
-  background: var(--color-bg-card);
-  border: 1px solid var(--color-border-viewer);
-  border-radius: var(--radius-4);
+  background: var(--color-surface-card);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--corner-sm);
   text-align: center;
-  font-family: var(--font-family-base);
-  font-size: var(--font-size-12);
-  color: var(--color-text-body);
+  font-size: var(--type-caption-md-size);
+  color: var(--color-text-primary);
   outline: none;
 }
 
 .navTotal {
-  font-size: var(--font-size-12);
+  font-size: var(--type-caption-md-size);
   color: var(--color-text-secondary);
 }
 
 .documentArea {
   flex: 1;
   overflow-y: auto;
-  padding: var(--spacing-12) 0 var(--spacing-32);
+  padding: var(--inset-sm) 0 var(--inset-2xl);
 }
 

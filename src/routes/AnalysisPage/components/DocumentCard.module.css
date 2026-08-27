@@ -4,15 +4,15 @@
   min-height: 817px;
   margin: 0 auto;
   padding: 40px 44px 60px;
-  background: var(--color-bg-card);
-  box-shadow: var(--shadow-card);
+  background: var(--color-surface-card);
+  box-shadow: var(--elevation-raised);
 }
 
 .metaLeft,
 .metaRight {
   position: absolute;
   top: 40px;
-  font-size: var(--font-size-10);
+  font-size: var(--type-caption-sm-size);
   color: var(--color-text-secondary);
 }
 
@@ -30,36 +30,35 @@
   left: 44px;
   right: 44px;
   height: 2px;
-  background: var(--color-text-title);
+  background: var(--color-text-heading);
 }
 
 /* ── Timbre ── */
 .gov {
   margin-top: 22px;
-  font-weight: var(--font-weight-bold);
-  font-size: var(--font-size-12);
+  font: var(--type-caption-md-bold);
   letter-spacing: 0.6px;
   text-transform: uppercase;
-  color: var(--color-text-title);
+  color: var(--color-text-heading);
 }
 
 .dept {
-  margin-top: var(--spacing-4);
-  font-size: var(--font-size-10);
-  color: var(--color-text-body);
+  margin-top: var(--stack-2xs);
+  font-size: var(--type-caption-sm-size);
+  color: var(--color-text-primary);
 }
 
 .accent {
   width: 36px;
   height: 2px;
-  margin-top: var(--spacing-8);
-  background: var(--color-brand-default);
+  margin-top: var(--stack-xs);
+  background: var(--color-surface-brand);
 }
 
 /* Peça a que a folha pertence. */
 .context {
-  margin-top: var(--spacing-12);
-  font-size: var(--font-size-10);
+  margin-top: var(--stack-sm);
+  font-size: var(--type-caption-sm-size);
   letter-spacing: 0.4px;
   text-transform: uppercase;
   color: var(--color-text-secondary);
@@ -67,75 +66,71 @@
 
 /* Título da peça — só na primeira folha dela. */
 .number {
-  margin-top: var(--spacing-8);
-  font-weight: var(--font-weight-bold);
-  font-size: var(--font-size-16);
-  line-height: var(--line-height-24);
+  margin-top: var(--stack-xs);
+  font: var(--type-body-md-bold);
   letter-spacing: 0.3px;
-  color: var(--color-text-title);
+  color: var(--color-text-heading);
 }
 
 .section {
-  margin-top: var(--spacing-12);
-  padding-bottom: var(--spacing-4);
+  margin-top: var(--stack-sm);
+  padding-bottom: var(--inset-2xs);
   border-bottom: 1px solid var(--color-border-subtle);
-  font-weight: var(--font-weight-semibold);
-  font-size: var(--font-size-12);
-  color: var(--color-text-title);
+  font: var(--type-caption-md-strong);
+  color: var(--color-text-heading);
 }
 
 /* ── Blocos ── */
 .body {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-12);
-  margin-top: var(--spacing-16);
+  gap: var(--stack-sm);
+  margin-top: var(--stack-md);
 }
 
 .blockHeading {
-  font-weight: var(--font-weight-semibold);
-  font-size: var(--font-size-12);
-  color: var(--color-text-title);
+  font: var(--type-caption-md-strong);
+  color: var(--color-text-heading);
 }
 
 .paragraph {
-  font-size: var(--font-size-12);
+  font-size: var(--type-caption-md-size);
   line-height: 1.7;
   text-align: justify;
-  color: var(--color-text-body);
+  color: var(--color-text-primary);
 }
 
 .list {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-4);
-  padding-left: var(--spacing-16);
-  font-size: var(--font-size-12);
+  gap: var(--stack-2xs);
+  padding-left: var(--inset-md);
+  font-size: var(--type-caption-md-size);
   line-height: 1.6;
-  color: var(--color-text-body);
+  color: var(--color-text-primary);
 }
 
 .table {
   width: 100%;
   border-collapse: collapse;
-  font-size: var(--font-size-10);
+  font-size: var(--type-caption-sm-size);
 }
 
 .table th,
 .table td {
-  padding: var(--spacing-4) var(--spacing-8);
+  padding: var(--inset-2xs) var(--inset-xs);
   border: 1px solid var(--color-border-subtle);
   text-align: left;
 }
 
 .table th {
-  background: var(--color-bg-subtle);
+  background: var(--color-surface-subtle);
   font-weight: var(--font-weight-semibold);
-  color: var(--color-text-title);
+  color: var(--color-text-heading);
 }
 
 .table td {
-  color: var(--color-text-body);
+  color: var(--color-text-primary);
 }
 
 .table td:last-child,
@@ -144,33 +139,32 @@
 }
 
 .signature {
-  margin-top: var(--spacing-24);
+  margin-top: var(--stack-xl);
   text-align: center;
 }
 
 .signatureRule {
   width: 220px;
   height: 1px;
-  margin: 0 auto var(--spacing-4);
-  background: var(--color-text-body);
+  margin: 0 auto var(--stack-2xs);
+  background: var(--color-text-primary);
 }
 
 .signatureName {
-  font-weight: var(--font-weight-semibold);
-  font-size: var(--font-size-12);
-  color: var(--color-text-title);
+  font: var(--type-caption-md-strong);
+  color: var(--color-text-heading);
 }
 
 .signatureRole {
-  font-size: var(--font-size-10);
+  font-size: var(--type-caption-sm-size);
   color: var(--color-text-secondary);
 }
 
 .alert {
   position: relative;
   padding: 11px 10px 11px 16px;
-  background: var(--color-bg-alert);
-  border-radius: var(--radius-4);
+  background: var(--color-surface-alert);
+  border-radius: var(--corner-sm);
 }
 
 .alert::before {
@@ -178,22 +172,22 @@
   position: absolute;
   inset: 0 auto 0 0;
   width: 3px;
-  background: var(--color-warning-default);
-  border-radius: var(--radius-4) 0 0 var(--radius-4);
+  background: var(--color-surface-warning-strong);
+  border-radius: var(--corner-sm) 0 0 var(--corner-sm);
 }
 
 .alertTitle {
+  font: var(--type-caption-sm);
   font-weight: var(--font-weight-bold);
-  font-size: var(--font-size-10);
   letter-spacing: 0.44px;
   text-transform: uppercase;
-  color: var(--color-text-title);
+  color: var(--color-text-heading);
 }
 
 .alertText {
-  margin-top: var(--spacing-4);
-  font-size: var(--font-size-12);
-  color: var(--color-text-body);
+  margin-top: var(--stack-2xs);
+  font-size: var(--type-caption-md-size);
+  color: var(--color-text-primary);
 }
 
 /* ── Versão compacta (480 × 584, visualizador do sumário) ── */
@@ -201,27 +195,27 @@
   width: 100%;
   max-width: 480px;
   min-height: 584px;
-  padding: var(--spacing-32) var(--spacing-40) var(--spacing-40);
+  padding: var(--inset-2xl) var(--inset-3xl) var(--inset-3xl);
 }
 
 .cardCompact .metaLeft,
 .cardCompact .metaRight {
-  top: var(--spacing-32);
+  top: var(--inset-2xl);
   font-size: 9px;
 }
 
 .cardCompact .metaLeft {
-  left: var(--spacing-40);
+  left: var(--inset-3xl);
 }
 
 .cardCompact .metaRight {
-  right: var(--spacing-40);
+  right: var(--inset-3xl);
 }
 
 .cardCompact .rule {
   top: 53px;
-  left: var(--spacing-40);
-  right: var(--spacing-40);
+  left: var(--inset-3xl);
+  right: var(--inset-3xl);
 }
 
 .cardCompact .gov {
@@ -230,14 +224,15 @@
 }
 
 .cardCompact .context {
-  margin-top: var(--spacing-8);
+  margin-top: var(--stack-xs);
   font-size: 9px;
 }
 
 .cardCompact .number {
-  margin-top: var(--spacing-4);
-  font-size: var(--font-size-12);
-  line-height: var(--line-height-20);
+  margin-top: var(--stack-2xs);
+  font: var(--type-caption-md);
+  /* o atalho `font` zera o peso — repõe o bold de .number */
+  font-weight: var(--font-weight-bold);
 }
 
 .cardCompact .section,
@@ -246,12 +241,12 @@
 .cardCompact .blockHeading,
 .cardCompact .alertText,
 .cardCompact .signatureName {
-  font-size: var(--font-size-10);
+  font-size: var(--type-caption-sm-size);
 }
 
 .cardCompact .body {
-  margin-top: var(--spacing-12);
-  gap: var(--spacing-8);
+  margin-top: var(--stack-sm);
+  gap: var(--inline-xs);
 }
 
 .cardCompact .table {

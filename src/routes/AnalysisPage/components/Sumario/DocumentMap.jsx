@@ -1,46 +1,18 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { MinusIcon, PlusIcon } from "@/components/icons";
-import type { DocumentPiece } from "@/data/types";
 import styles from "./DocumentMap.module.css";
 
-interface DocumentMapProps {
-  pieces: DocumentPiece[];
-  totalPages: number;
-  /** Peça destacada (mesma seleção da tabela). */
-  selectedId: string | null;
-  /** Página sob o cursor vermelho da régua. */
-  currentPage: number;
-  onSelect: (id: string) => void;
-}
-
 const ZOOM_STEPS = [1, 1.5, 2, 3];
-/** Abaixo desta largura o segmento mostra só o número (Figma: segmentos ≤ 73px). */
-const DETAIL_MIN_WIDTH = 90;
+/** Menor largura de segmento no Figma. Abaixo disso o detalhe é cortado. */
 const SEGMENT_MIN_WIDTH = 48;
 
 /**
  * Régua proporcional do documento (`Mapa do documento`). Cada segmento é uma
- * peça com páginas atribuídas; a largura acompanha o nº de páginas.
+ * peça com páginas atribuídas; a largura acompanha o nº de páginas. O nome e a
+ * faixa aparecem sempre — quando não cabem, o segmento corta com reticências.
  */
-export function DocumentMap({
-  pieces,
-  totalPages,
-  selectedId,
-  currentPage,
-  onSelect,
-}: DocumentMapProps) {
+export function DocumentMap({ pieces, totalPages, selectedId, currentPage, onSelect }) {
   const [zoomIndex, setZoomIndex] = useState(0);
-  const rulerRef = useRef<HTMLDivElement>(null);
-  const [rulerWidth, setRulerWidth] = useState(0);
-
-  // A decisão de mostrar o detalhe depende da largura real do segmento.
-  useEffect(() => {
-    const el = rulerRef.current;
-    if (!el) return;
-    const observer = new ResizeObserver(([entry]) => setRulerWidth(entry.contentRect.width));
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
 
   const segments = pieces.filter((p) => p.startPage !== null && p.endPage !== null);
   const zoom = ZOOM_STEPS[zoomIndex];
@@ -74,10 +46,9 @@ export function DocumentMap({
 
       <div className={styles.scroll}>
         <div className={styles.track} style={{ width: `${zoom * 100}%` }}>
-          <div className={styles.ruler} ref={rulerRef}>
+          <div className={styles.ruler}>
             {segments.map((piece) => {
-              const pages = (piece.endPage as number) - (piece.startPage as number) + 1;
-              const width = (pages / totalPages) * rulerWidth;
+              const pages = piece.endPage - piece.startPage + 1;
               const selected = piece.id === selectedId;
               const segClass = [
                 styles.segment,
@@ -103,16 +74,12 @@ export function DocumentMap({
                   >
                     {piece.state === "orfa" ? "!" : piece.order}
                   </span>
-                  {width >= DETAIL_MIN_WIDTH && (
-                    <span className={styles.detail}>
-                      <span className={styles.detailName}>
-                        {piece.state === "orfa" ? "órfãs" : piece.name}
-                      </span>
-                      <span className={styles.detailRange}>
-                        {piece.startPage}–{piece.endPage}
-                      </span>
+                  <span className={styles.detail}>
+                    <span className={styles.detailName}>{piece.shortName}</span>
+                    <span className={styles.detailRange}>
+                      {piece.startPage}–{piece.endPage}
                     </span>
-                  )}
+                  </span>
                 </button>
               );
             })}
@@ -132,7 +99,7 @@ export function DocumentMap({
               className={styles.cursorLabel}
               style={{ left: `${((currentPage - 1) / totalPages) * 100}%` }}
             >
-              pág. {currentPage}
+              {currentPage}
             </span>
           </div>
         </div>

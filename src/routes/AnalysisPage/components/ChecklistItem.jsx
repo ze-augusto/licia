@@ -1,24 +1,13 @@
-import type { MouseEvent } from "react";
 import { AccordionChevron, ArrowRight, PencilIcon } from "@/components/icons";
-import { STATUS_LABEL, type ChecklistItem as ChecklistItemModel } from "@/data/types";
+import { STATUS_LABEL, } from "@/data/types";
 import styles from "./AnalysisPanel.module.css";
 
-const STATUS_CLASS: Record<ChecklistItemModel["status"], string> = {
+const STATUS_CLASS = {
   success: styles.itemSuccess,
   warning: styles.itemWarning,
   error: styles.itemError,
   na: styles.itemNa,
 };
-
-interface ChecklistItemProps {
-  item: ChecklistItemModel;
-  open: boolean;
-  checked: boolean;
-  onToggleOpen: () => void;
-  onToggleChecked: () => void;
-  onViewPages?: (pages: string) => void;
-  onChangeOpinion?: () => void;
-}
 
 /** Item do checklist com acordeão, checkbox e ações. */
 export function ChecklistItem({
@@ -29,12 +18,12 @@ export function ChecklistItem({
   onToggleChecked,
   onViewPages,
   onChangeOpinion,
-}: ChecklistItemProps) {
+}) {
   const disabled = item.status === "na";
 
-  function handleHeaderClick(event: MouseEvent<HTMLDivElement>) {
+  function handleHeaderClick(event) {
     // Cliques no checkbox ou no link de páginas não alternam o acordeão.
-    if ((event.target as HTMLElement).closest(`.${styles.checkbox}, .${styles.pages}`)) return;
+    if ((event.target).closest(`.${styles.checkbox}, .${styles.pages}`)) return;
     onToggleOpen();
   }
 
@@ -58,7 +47,7 @@ export function ChecklistItem({
               {item.pages && (
                 <span
                   className={styles.pages}
-                  onClick={() => onViewPages?.(item.pages!)}
+                  onClick={() => onViewPages?.(item.pages)}
                   role="button"
                   tabIndex={0}
                 >
@@ -81,7 +70,7 @@ export function ChecklistItem({
             {item.status !== "na" && (
               <div className={styles.detailActions}>
                 {item.viewLabel && (
-                  <button className={styles.btnLink} onClick={() => onViewPages?.(item.pages!)}>
+                  <button className={styles.btnLink} onClick={() => onViewPages?.(item.pages)}>
                     <ArrowRight />
                     {item.viewLabel}
                   </button>

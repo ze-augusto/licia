@@ -1,23 +1,15 @@
 import { useEffect, useMemo, useState } from "react";
-import type {
-  ChecklistFilter,
-  ChecklistItem as ChecklistItemModel,
-  ChecklistStatus,
-} from "@/data/types";
 import { STATUS_LABEL } from "@/data/types";
 import { CHECKLIST_GROUPS, CHECKLIST_VERIFIABLE_TOTAL } from "@/data/checklist";
 import { OBSERVATION_GROUPS, OBSERVATIONS_TOTAL } from "@/data/tecnica";
 import { ChecklistItem } from "./ChecklistItem";
 import { ObservationItem } from "./ObservationItem";
 import { CompletionModal } from "./CompletionModal";
-import { ChangeOpinionModal, type OpinionChange } from "./ChangeOpinionModal";
+import { ChangeOpinionModal, } from "./ChangeOpinionModal";
 import { Toast } from "./Toast";
 import styles from "./AnalysisPanel.module.css";
 
-type Tab = "checklist" | "tecnica";
-type ModalKind = "nao-conforme" | "conforme" | null;
-
-const FILTERS: { id: ChecklistFilter; label: string; activeClass: string }[] = [
+const FILTERS = [
   { id: "nao-conforme", label: "Não-conforme", activeClass: styles.chipActiveError },
   { id: "conforme", label: "Conforme", activeClass: styles.chipActiveConforme },
   { id: "nao-aplica", label: "Não se aplica", activeClass: styles.chipActiveNa },
@@ -25,7 +17,7 @@ const FILTERS: { id: ChecklistFilter; label: string; activeClass: string }[] = [
 ];
 
 /** Decide se um status passa pelo filtro selecionado. */
-function matchesFilter(status: ChecklistStatus, filter: ChecklistFilter): boolean {
+function matchesFilter(status, filter) {
   switch (filter) {
     case "todos":
       return true;
@@ -46,23 +38,23 @@ const CONFORME_IDS = ALL_ITEMS.filter(
 
 /** Painel de análise: abas, progresso, filtros, checklist e técnica. */
 export function AnalysisPanel() {
-  const [tab, setTab] = useState<Tab>("checklist");
-  const [filter, setFilter] = useState<ChecklistFilter>("nao-conforme");
-  const [checked, setChecked] = useState<ReadonlySet<string>>(new Set());
-  const [checkedObs, setCheckedObs] = useState<ReadonlySet<string>>(new Set());
-  const [open, setOpen] = useState<ReadonlySet<string>>(new Set());
+  const [tab, setTab] = useState("checklist");
+  const [filter, setFilter] = useState("nao-conforme");
+  const [checked, setChecked] = useState(new Set());
+  const [checkedObs, setCheckedObs] = useState(new Set());
+  const [open, setOpen] = useState(new Set());
 
-  const [modal, setModal] = useState<ModalKind>(null);
+  const [modal, setModal] = useState(null);
   const [naoConformeShown, setNaoConformeShown] = useState(false);
   const [conformeShown, setConformeShown] = useState(false);
 
   // Pareceres alterados pelo usuário (sobrepõem status, detalhe e páginas do item).
-  const [overrides, setOverrides] = useState<ReadonlyMap<string, OpinionChange>>(new Map());
-  const [opinionItem, setOpinionItem] = useState<ChecklistItemModel | null>(null);
-  const [toast, setToast] = useState<{ id: number; title: string; message: string } | null>(null);
+  const [overrides, setOverrides] = useState(new Map());
+  const [opinionItem, setOpinionItem] = useState(null);
+  const [toast, setToast] = useState(null);
 
   /** Item com as alterações de parecer aplicadas (status, comentário e página). */
-  const effectiveItem = (item: ChecklistItemModel): ChecklistItemModel => {
+  const effectiveItem = (item) => {
     const ov = overrides.get(item.id);
     if (!ov) return item;
     const hasPage = ov.status !== "error" && ov.pageNumber !== "";
@@ -90,7 +82,7 @@ export function AnalysisPanel() {
     }
   }, [checked, naoConformeShown, conformeShown]);
 
-  function toggle(set: ReadonlySet<string>, id: string): Set<string> {
+  function toggle(set, id) {
     const next = new Set(set);
     next.has(id) ? next.delete(id) : next.add(id);
     return next;
