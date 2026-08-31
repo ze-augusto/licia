@@ -1,9 +1,14 @@
-/* Linha da tabela de peças — Figma `Sumário/Linha-peça` (258:3529).
-   Colunas: nº 44 · peça flex · pág. inicial 72 · pág. final 64 · ações 164. */
+/* Linha da tabela de documentos — Figma `Sumário/Linha-peça` (258:3529).
+   Colunas: documento flex · pág. inicial 72 · pág. final 64 · ações 164.
+   A coluna de nº saiu junto com a ordenação dos documentos.
+
+   A linha empilha: as colunas em cima e, quando há sobreposição de páginas, o
+   aviso embaixo, atravessando a largura toda. */
 .row {
   display: flex;
-  align-items: center;
-  gap: var(--inline-xs);
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--stack-3xs);
   min-height: 52px;
   padding: var(--inset-xs) var(--inset-sm);
   border-bottom: 1px solid var(--color-border-subtle);
@@ -14,11 +19,10 @@
   border-bottom: none;
 }
 
-.colNumber {
-  flex-shrink: 0;
+.main {
   display: flex;
   align-items: center;
-  width: 44px;
+  gap: var(--inline-xs);
 }
 
 .colName {
@@ -57,36 +61,8 @@
   width: 164px;
 }
 
-/* ── Número circular (`Sumário/Peça-número`) ── */
-.number {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 22px;
-  height: 22px;
-  border-radius: var(--corner-pill);
-  border: 1px solid var(--color-border-strong);
-  background: var(--color-surface-card);
-  font: var(--type-caption-md-strong);
-  color: var(--color-text-primary);
-}
-
-.number_atual {
-  background: var(--color-surface-brand);
-  border-color: var(--color-border-brand);
-  color: var(--color-text-inverse);
-}
-
-.number_ausente,
-.number_orfa {
-  border-style: dashed;
-  border-color: var(--color-border-danger);
-  color: var(--color-text-danger);
-}
-
 /* ── Texto ── */
-.name,
-.page {
+.name {
   flex: 1;
   min-width: 0;
   font: var(--type-body-sm);
@@ -96,13 +72,16 @@
   white-space: nowrap;
 }
 
-/* Página é um atalho para o visualizador. */
+/* Página é um atalho para o visualizador. A caixa acompanha o número, não a
+   coluna: esticada, o botão levava o sublinhado do hover e o balão do tooltip
+   para o vazio à direita, desalinhados do algarismo. */
 .page {
   padding: 0;
   border: none;
   background: none;
-  text-align: left;
+  font: var(--type-body-sm);
   color: var(--color-text-brand);
+  white-space: nowrap;
   cursor: pointer;
 }
 
@@ -110,15 +89,31 @@
   text-decoration: underline;
 }
 
+.input:disabled {
+  background: var(--color-surface-disabled);
+  border-color: var(--color-border-disabled);
+  color: var(--color-text-disabled);
+}
+
 .input {
   width: 100%;
-  padding: var(--inset-xs) var(--inset-sm);
+  /* padding lateral menor que o de célula: as setinhas nativas do type=number
+     comem ~15px e a coluna tem só 64–72px */
+  padding: var(--inset-xs);
   background: var(--color-surface-card);
   border: 1px solid var(--color-border-default);
   border-radius: var(--corner-md);
   outline: none;
   font: var(--type-body-sm);
   color: var(--color-text-primary);
+}
+
+/* Sobreposição não trava o salvamento: o aviso fica na linha até o usuário
+   corrigir um dos dois intervalos. Aparece nas duas linhas envolvidas. */
+.warning {
+  margin: 0;
+  font: var(--type-caption-md);
+  color: var(--color-text-danger);
 }
 
 /* ── Variação: idle ── */
@@ -138,20 +133,13 @@
   padding: calc(var(--inset-xs) - 1px) calc(var(--inset-sm) - 1px);
 }
 
-/* ── Variações: ausente e órfã ── */
-.row_ausente,
-.row_orfa {
+/* ── Variação: ausente ── */
+.row_ausente {
   background: var(--color-surface-danger);
 }
 
-.row_ausente .name,
-.row_orfa .name,
-.row_orfa .page {
+.row_ausente .name {
   color: var(--color-text-danger);
-}
-
-.row_orfa .name {
-  font-style: italic;
 }
 
 /* ── Ações ── */
@@ -168,8 +156,13 @@
   transition: background 0.12s;
 }
 
-.iconBtn:hover {
+.iconBtn:hover:not(:disabled) {
   background: var(--color-surface-hover);
+}
+
+.iconBtn:disabled {
+  color: var(--color-text-disabled);
+  cursor: default;
 }
 
 .iconBtn svg {

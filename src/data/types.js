@@ -77,22 +77,23 @@ export const STATUS_LABEL = {
  */
 
 /**
- * Estados da linha da tabela de peças (componente `Sumário/Linha-peça`).
- * - `idle`    — peça localizada pela Licia
- * - `atual`   — em edição (nome e páginas viram campos)
- * - `ausente` — peça esperada que não foi localizada no documento
- * - `orfa`    — faixa de páginas sem peça atribuída
- * @typedef {"idle" | "atual" | "ausente" | "orfa"} PieceState
+ * Estados da linha da tabela de documentos (componente `Sumário/Linha-peça`).
+ * - `idle`       — documento localizado pela Licia
+ * - `atual`      — em edição (nome e páginas viram campos)
+ * - `ausente`    — documento esperado que não foi localizado no caderno
+ * - `foraEscopo` — intervalo entre dois documentos, com material de instrução
+ *                  que a análise não usa (~40% do caderno)
+ * @typedef {"idle" | "atual" | "ausente" | "foraEscopo"} SumarioItemState
  */
 
 /**
- * Peça do sumário do documento compilado.
- * @typedef {object} DocumentPiece
+ * Item do sumário do documento compilado: um documento ou um trecho fora do
+ * escopo. Não há ordenação — a posição no caderno é dada por `startPage`.
+ * @typedef {object} SumarioItem
  * @property {string} id
- * @property {number | null} order       Número no círculo. `null` em peças ausentes ("—") e órfãs ("!").
  * @property {string} name
  * @property {string} shortName          Rótulo curto, usado só nos segmentos do mapa.
- * @property {number | null} startPage   Página inicial no PDF; `null` quando não localizada.
- * @property {number | null} endPage     Página final no PDF; `null` quando não localizada.
- * @property {PieceState} state
+ * @property {number | null} startPage   Página inicial no PDF; `null` quando não localizado.
+ * @property {number | null} endPage     Página final no PDF; `null` quando não localizado.
+ * @property {SumarioItemState} state
  */
