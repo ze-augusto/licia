@@ -1,23 +1,26 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft } from "@/components/icons";
-import { EXPECTED_PIECES, SUMARIO_PIECES } from "@/data/sumario";
+import { EXPECTED_DOCUMENTS, SUMARIO_DOCUMENTS } from "@/data/sumario";
 import { DocumentMap } from "./DocumentMap";
-import { PieceRow } from "./PieceRow";
+import { DocumentRow } from "./DocumentRow";
+import { RemoveDocumentModal } from "./RemoveDocumentModal";
 import { SumarioViewer } from "./SumarioViewer";
 import styles from "./SumarioStep.module.css";
+import {
+  isLocated,
+  isPlaced,
+  overlapsById,
+  parsePage,
+  placeDocument,
+  removeDocument,
+} from "./sumarioModel";
 
-/** Converte o texto do campo em página válida dentro do documento. */
-function parsePage(value, totalPages) {
-  const n = Number(value.replace(/\D/g, ""));
-  return n >= 1 && n <= totalPages ? n : null;
-}
-
-/** Rótulo do cabeçalho do visualizador: `2 - Termo de Referência`. */
-function viewerLabel(piece, page) {
-  if (!piece) return `Página ${page}`;
-  if (piece.state === "orfa") return "páginas órfãs";
-  return `${piece.order} - ${piece.name}`;
+/** Rótulo do cabeçalho do visualizador. */
+function viewerLabel(doc, page) {
+  if (!doc) return `Página ${page}`;
+  if (doc.state === "foraEscopo") return "trecho fora do escopo";
+  return doc.name;
 }
 
 /**
@@ -25,51 +28,49 @@ function viewerLabel(piece, page) {
  * confere o sumário que a Licia extraiu do documento compilado.
  */
 export function SumarioStep({ nup, subject, document, onConfirm }) {
-  const [pieces, setPieces] = useState(SUMARIO_PIECES);
+  const [docs, setDocs] = useState(SUMARIO_DOCUMENTS);
   const [selectedId, setSelectedId] = useState(null);
   const [editingId, setEditingId] = useState(null);
+  // Documento aguardando confirmação de exclusão.
+  const [removingId, setRemovingId] = useState(null);
   const [page, setPage] = useState(1);
 
-  const selected = pieces.find((p) => p.id === selectedId) ?? null;
+  const selected = docs.find((d) => d.id === selectedId) ?? null;
+  const removing = docs.find((d) => d.id === removingId) ?? null;
 
-  // Sem peça escolhida, o visualizador nomeia a peça que cobre a página aberta.
+  // Sem documento escolhido, o visualizador nomeia o que cobre a página aberta.
   const inView =
-    selected ??
-    pieces.find((p) => p.startPage !== null && page >= p.startPage && page <= p.endPage) ??
-    null;
+    selected ?? docs.find((d) => isPlaced(d) && page >= d.startPage && page <= d.endPage) ?? null;
 
-  const { located, missing, orphanPages } = useMemo(
-    () => ({
-      located: pieces.filter((p) => p.state !== "orfa" && p.startPage !== null).length,
-      missing: pieces.filter((p) => p.state === "ausente").length,
-      orphanPages: pieces
-        .filter((p) => p.state === "orfa" && p.startPage && p.endPage)
-        .reduce((sum, p) => sum + (p.endPage - p.startPage + 1), 0),
-    }),
-    [pieces],
-  );
+  const located = useMemo(() => docs.filter(isLocated).length, [docs]);
+  // A lista é só de documentos: os trechos fora do escopo vivem apenas no mapa.
+  const listed = useMemo(() => docs.filter((d) => d.state !== "foraEscopo"), [docs]);
+  // Sobreposição de páginas é avisada, não bloqueada: ver `placeDocument`.
+  const overlaps = useMemo(() => overlapsById(docs), [docs]);
 
-  function update(id, patch) {
-    setPieces((current) => current.map((p) => (p.id === id ? { ...p, ...patch } : p)));
+  function select(doc) {
+    setSelectedId(doc.id);
+    if (doc.startPage) setPage(doc.startPage);
   }
 
-  function select(piece) {
-    setSelectedId(piece.id);
-    if (piece.startPage) setPage(piece.startPage);
-  }
-
-  function savePiece(piece, draft) {
+  function saveDocument(doc, draft) {
     const startPage = parsePage(draft.startPage, document.totalPages);
     const endPage = parsePage(draft.endPage, document.totalPages) ?? startPage;
-    update(piece.id, {
-      name: draft.name.trim() || piece.name,
-      startPage,
-      endPage,
-      // Sem páginas válidas a peça continua ausente. Uma faixa órfã segue órfã
-      // mesmo depois de editada — só a peça ausente que ganha páginas vira idle.
-      state: startPage === null ? "ausente" : piece.state === "orfa" ? "orfa" : "idle",
-    });
+    setDocs((current) => placeDocument(current, doc, startPage, endPage));
+    // O documento entra na ordem do caderno; segui-lo evita perder de vista a
+    // linha que acabou de mudar de lugar na lista.
+    if (startPage !== null) {
+      setSelectedId(doc.id);
+      setPage(startPage);
+    }
     setEditingId(null);
+  }
+
+  function remove(doc) {
+    setEditingId(null);
+    setRemovingId(null);
+    if (selectedId === doc.id) setSelectedId(null);
+    setDocs(removeDocument(docs, doc));
   }
 
   return (
@@ -87,13 +88,19 @@ export function SumarioStep({ nup, subject, document, onConfirm }) {
       </header>
 
       <DocumentMap
-        pieces={pieces}
+        documents={docs}
         totalPages={document.totalPages}
         selectedId={selectedId}
         currentPage={page}
         onSelect={(id) => {
-          const piece = pieces.find((p) => p.id === id);
-          if (piece) select(piece);
+          const doc = docs.find((d) => d.id === id);
+          if (doc) select(doc);
+        }}
+        onPickPage={(target) => {
+          // A página clicada manda: o documento em foco passa a ser o que a cobre.
+          const doc = docs.find((d) => isPlaced(d) && target >= d.startPage && target <= d.endPage);
+          setSelectedId(doc?.id ?? null);
+          setPage(target);
         }}
       />
 
@@ -110,38 +117,30 @@ export function SumarioStep({ nup, subject, document, onConfirm }) {
           <div className={styles.card}>
             <h2 className={styles.cardTitle}>Lista de documentos</h2>
 
-            <div className={styles.alerts}>
-              {missing > 0 && (
-                <span className={styles.tag}>
-                  {missing} peça{missing > 1 ? "s" : ""} não localizada{missing > 1 ? "s" : ""}
-                </span>
-              )}
-              {orphanPages > 0 && <span className={styles.tag}>{orphanPages} páginas órfãs</span>}
-            </div>
-
             <div className={styles.tableHead}>
-              <div className={styles.colNumber}>Nº</div>
-              <div className={styles.colName}>PEÇA</div>
+              <div className={styles.colName}>DOCUMENTO</div>
               <div className={styles.colPage}>PÁG. INICIAL</div>
               <div className={styles.colPage}>PÁG. FINAL</div>
               <div className={styles.colActions}>AÇÕES</div>
             </div>
 
-            {pieces.map((piece) => (
-              <PieceRow
-                key={`${piece.id}-${piece.id === editingId}`}
-                piece={piece}
-                editing={piece.id === editingId}
-                onSelect={() => select(piece)}
+            {listed.map((doc) => (
+              <DocumentRow
+                key={`${doc.id}-${doc.id === editingId}`}
+                doc={doc}
+                editing={doc.id === editingId}
+                totalPages={document.totalPages}
+                overlaps={overlaps.get(doc.id)}
+                onSelect={() => select(doc)}
                 onEdit={() => {
-                  select(piece);
-                  setEditingId(piece.id);
+                  select(doc);
+                  setEditingId(doc.id);
                 }}
-                onSave={(draft) => savePiece(piece, draft)}
+                onSave={(draft) => saveDocument(doc, draft)}
                 onCancel={() => setEditingId(null)}
-                onRemove={() => setPieces((c) => c.filter((p) => p.id !== piece.id))}
+                onRemove={() => setRemovingId(doc.id)}
                 onGoToPage={(target) => {
-                  setSelectedId(piece.id);
+                  setSelectedId(doc.id);
                   setPage(target);
                 }}
               />
@@ -150,9 +149,15 @@ export function SumarioStep({ nup, subject, document, onConfirm }) {
         </div>
       </div>
 
+      <RemoveDocumentModal
+        doc={removing}
+        onClose={() => setRemovingId(null)}
+        onConfirm={() => remove(removing)}
+      />
+
       <footer className={styles.footer}>
         <span className={styles.progress}>
-          {located} de {EXPECTED_PIECES} peças localizadas
+          {located} de {EXPECTED_DOCUMENTS} documentos localizados
         </span>
         <div className={styles.actions}>
           <Link className={`${styles.btn} ${styles.btnOutline}`} to="/">

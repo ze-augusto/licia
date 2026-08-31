@@ -499,7 +499,12 @@ religado; instâncias precisam de inspeção caso a caso.
 **G4 — Nenhum nó consome os effect styles de elevação.** Os três foram criados
 mas o arquivo ainda desenha sombra solta. Falta aplicá-los onde há sombra.
 
-**G5 — `Sumário/Peça-número` tem uma variante `confirmada` órfã.** O
+**G5 — `--color-surface-inverse` só existe no código.** Criado para o tooltip
+(fundo escuro, único do sistema que aguenta `--color-text-inverse`: 13.9:1).
+Falta criar `Color/surface/inverse` na coleção Semânticas apontando para
+`Color/preto/1000` — até lá são 104 tokens no código contra 103 no Figma.
+
+**G6 — `Sumário/Peça-número` tem uma variante `confirmada` órfã.** O
 `Sumário/Linha-peça` perdeu o estado `confirmada` na revisão da tela de sumário
 e o código acompanhou; o componente do círculo manteve a variante. Nada a usa.
 Apagar quando houver certeza de que a confirmação não volta.

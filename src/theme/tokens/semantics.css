@@ -82,6 +82,9 @@
   --color-surface-disabled: var(--color-cinza-400);
   --color-surface-skeleton: var(--color-cinza-400);
   --color-surface-overlay:  color-mix(in srgb, var(--color-preto-1000) 45%, transparent); /* véu atrás de modal */
+  --color-surface-inverse:  var(--color-preto-1000); /* fundo escuro sobre a página: tooltip. 13.9:1 com
+                                                        --color-text-inverse — o único fundo cheio do sistema
+                                                        que aguenta texto branco. Ver o aviso em surface-*-strong. */
 
   /* chrome do aplicativo — o que emoldura o conteúdo em vez de ser conteúdo */
   --color-surface-desktop:  var(--color-neutro-desktop); /* área de trabalho atrás dos painéis */
